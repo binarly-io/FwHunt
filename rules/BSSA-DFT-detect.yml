@@ -1,7 +1,7 @@
 Intel-BSSA-DFT:
   meta:
     author: Binarly
-    licence: https://creativecommons.org/publicdomain/zero/1.0/
+    license: https://creativecommons.org/publicdomain/zero/1.0/
     name: Intel-BSSA-DFT
     version: 1.0
     namespace: vulnerabilities

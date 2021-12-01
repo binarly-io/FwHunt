@@ -1,6 +1,7 @@
 BRLY-2021-001:
   meta:
     author: Binarly
+    license: https://creativecommons.org/publicdomain/zero/1.0/
     name: BRLY-2021-001
     version: 1.0
     namespace: vulnerabilities
