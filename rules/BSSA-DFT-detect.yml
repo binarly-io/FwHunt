@@ -1,0 +1,52 @@
+Intel-BSSA-DFT:
+  meta:
+    author: Binarly
+    licence: https://creativecommons.org/publicdomain/zero/1.0/
+    name: Intel-BSSA-DFT
+    version: 1.0
+    namespace: vulnerabilities
+    CVE number: CVE-2021-0144
+    vendor id: INTEL-SA-00525
+    CVSS score: 7.5 High
+    advisory: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00525.html
+    description: Intel BSSA DFT detection
+  guids:
+    - 0:
+      - name: EFI_PLATFORM_INFO_GUID
+      - value: 1E2ACC41-E26A-483D-AFC7A056C34E087B
+    - 1:
+      - name: EFI_STATUS_CODE_SPECIFIC_DATA_GUID
+      - value: 335984BD-E805-409A-B8F8D27ECE5FF7A6
+    - 2:
+      - name: EFI_STATUS_CODE_DATA_TYPE_DEBUG_GUID
+      - value: 9A4E9246-D553-11D5-87E200062945C3B9
+    - 3:
+      - name: EFI_PEI_READ_ONLY_VARIABLE2_PPI_GUID
+      - value: 2AB86EF5-ECB5-4134-B5563854CA1FE1B4
+    - 4:
+      - name: EFI_PEI_PCD_PPI_GUID
+      - value: 01F34D25-4DE2-23AD-3FF336353FF323F1
+  ppi:
+    - 0:
+      - name: EFI_PEI_READ_ONLY_VARIABLE2_PPI_GUID
+      - value: 2AB86EF5-ECB5-4134-B5563854CA1FE1B4
+      - service:
+        - name: LocatePpi
+  wide_strings:
+    0: syscg
+    1: toolh
+  hex_strings:
+    0: 56e8........593c01....80be....000000
+      # 56                                      push    esi
+      # E8 .. .. .. ..                          call    x_BiosSsaEnabled
+      # 59                                      pop     ecx
+      # 3C 01                                   cmp     al, 1
+      # .. ..                                   jnz     short loc_FFDE86FD
+      # 80 BE .. .. 00 00 00                    cmp     byte ptr [esi+81h], 0
+      # .. ..                                   jz      short loc_FFDE86FD
+    1: 6a006a0268be00000056e8
+      # 6A 00                                   push    0
+      # 6A 02                                   push    2
+      # 68 BE 00 00 00                          push    0BEh
+      # 56                                      push    esi
+      # E8 .. .. .. ..                          call    SsaApi
