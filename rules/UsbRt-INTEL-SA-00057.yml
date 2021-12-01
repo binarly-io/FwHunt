@@ -1,13 +1,13 @@
 UsbRt-INTEL-SA-00057:
   meta:
-    author: Binarly
-    license: https://creativecommons.org/publicdomain/zero/1.0/
-    name: UsbRt-INTEL-SA-00057
-    version: 1.0
-    namespace: vulnerabilities
-    vendor id: INTEL-SA-00057
-    advisory: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00057.html
-    description: Detection for arbitrary code execution in SMM
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      https://creativecommons.org/publicdomain/zero/1.0/
+    name:         UsbRt-INTEL-SA-00057
+    version:      1.0
+    namespace:    vulnerabilities
+    vendor id:    INTEL-SA-00057
+    advisory:     https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00057.html
+    description:  Detection for arbitrary code execution in SMM
   code:
     0:
       pattern: 0fb704250e040000c1e00405040100008b08

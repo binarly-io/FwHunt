@@ -1,15 +1,16 @@
 Intel-BSSA-DFT-INTEL-SA-00525:
   meta:
-    author: Binarly
-    license: https://creativecommons.org/publicdomain/zero/1.0/
-    name: Intel-BSSA-DFT
-    version: 1.0
-    namespace: vulnerabilities
-    CVE number: CVE-2021-0144
-    vendor id: INTEL-SA-00525
-    CVSS score: 7.5 High
-    advisory: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00525.html
-    description: Intel BSSA DFT detection
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      https://creativecommons.org/publicdomain/zero/1.0/
+    name:         Intel-BSSA-DFT
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2021-0144
+    vendor id:    INTEL-SA-00525
+    CVSS score:   7.5 High
+    advisory:     https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00525.html
+    url:          https://binarly.io/posts/Detecting_Firmware_vulnerabilities_at_scale_Intel_BSSA_DFT_case_study
+    description:  Intel BSSA DFT detection
   guids:
     - 0:
       - name: EFI_PLATFORM_INFO_GUID
