@@ -1,0 +1,25 @@
+ThinkPwn:
+  meta:
+    author: Binarly
+    licence: https://creativecommons.org/publicdomain/zero/1.0/
+    name: ThinkPwn
+    version: 2.0
+    namespace: vulnerabilities
+    CVE number: CVE-2017-5721
+    vendor id: LEN-8324
+    advisory: https://support.lenovo.com/my/en/solutions/LEN-8324
+    url: https://github.com/Cr4sh/ThinkPwn/
+    description: Detection for ThinkPwn vulnerability
+  hex_strings:
+    0: 4d95901395da274293287282c217daa8 # EFI_SMM_BASE_PROTOCOL_GUID
+    1: 488b4220488bda4885c0....488b084c8d4218488b15........ff5008488363200033c0
+        # 488b4220                            mov     rax, [rdx+20h]
+        # 488bda                              mov     rbx, rdx
+        # 4885c0                              test    rax, rax
+        # 7416                                jz      short loc_80000954
+        # 488b08                              mov     rcx, [rax]
+        # 4c8d4218                            lea     r8, [rdx+18h]
+        # 488b15b4050000                      mov     rdx, cs:qword_80000F00
+        # ff5008                              call    qword ptr [rax+8]
+        # 4883632000                          and     qword ptr [rbx+20h], 0
+        # 33c0                                xor     eax, eax
