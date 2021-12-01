@@ -18,7 +18,7 @@
 UsbRt-INTEL-SA-00057:
   meta:
     author:       Binarly
-    licence:      https://creativecommons.org/publicdomain/zero/1.0/
+    license:      https://creativecommons.org/publicdomain/zero/1.0/
     name:         UsbRt-INTEL-SA-00057
     version:      1.0
     namespace:    vulnerabilities
