@@ -11,6 +11,8 @@ Intel-BSSA-DFT-INTEL-SA-00525:
     advisory:     https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00525.html
     url:          https://binarly.io/posts/Detecting_Firmware_vulnerabilities_at_scale_Intel_BSSA_DFT_case_study
     description:  Intel BSSA DFT detection
+    volume guids:
+      - d71c8ba4-4af2-4d0d-b1ba-f2409f0c20d3
   guids:
     - 0:
       - name: EFI_PLATFORM_INFO_GUID

@@ -9,6 +9,8 @@ BRLY-2021-001-SwSmi-LEN-65529:
     vendor id:    LEN-65529
     advisory:     https://binarly.io/advisories/BRLY-2021-001/index.html
     description:  SMM callout vulnerability on Lenovo ThinkPad laptops firmware (SMM arbitrary code execution)
+    volume guids:
+      - 658d56f0-4364-4721-b70e-732ddc8a2771
   code:
     0:
       pattern: 488b05....000033d24533c98d4a024533c0ff5068

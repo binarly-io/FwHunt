@@ -9,6 +9,8 @@ ThinkPwn:
     advisory:     https://support.lenovo.com/my/en/solutions/LEN-8324
     url:          https://github.com/Cr4sh/ThinkPwn/
     description:  Detection for ThinkPwn vulnerability
+    volume guids:
+      - 7c79ac8c-5e6c-4e3d-ba6f-c260ee7c172e
   hex_strings:
     0: 4d95901395da274293287282c217daa8 # EFI_SMM_BASE_PROTOCOL_GUID
     1: 488b4220488bda4885c0....488b084c8d4218488b15........ff5008488363200033c0
