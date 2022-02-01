@@ -1,0 +1,26 @@
+BRLY-2021-025:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-024
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-24069
+    advisory:     https://binarly.io/advisories/BRLY-2021-025/index.html
+    description:  SMM callout vulnerability in combined DXE/SMM driver on BullSequana Edge server
+    volume guids:
+      - 3ACC966D-8E33-45C6-B4FE-62724BCD15A9
+  code:
+    0:
+      pattern: 4533c048894424..488b05....0000418d7002488d3d....00004c8d4dd08bce488bd7ff9038010000
+        # 4533c0                              xor     r8d, r8d; SearchKey
+        # 4889442420                          mov     [rsp+70h+Buffer], rax; Buffer
+        # 488b05bfcd0000                      mov     rax, cs:gBS_E140; EFI_BOOT_SERVICES *gBS
+        # 418d7002                            lea     esi, [r8+2]
+        # 488d3d54c20000                      lea     rdi, EFI_ATA_PASS_THRU_PROTOCOL_GUID_D5E0
+        # 4c8d4dd0                            lea     r9, [rbp+NoHandles]; NoHandles
+        # 8bce                                mov     ecx, esi; SearchType
+        # 488bd7                              mov     rdx, rdi; Protocol
+        # ff9038010000                        call    [rax+EFI_BOOT_SERVICES.LocateHandleBuffer]; gBS->LocateHandleBuffer()
+      place:
+        - child_sw_smi_handlers

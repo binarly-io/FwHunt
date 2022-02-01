@@ -1,0 +1,31 @@
+BRLY-2021-029:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-029
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2021-33625
+    advisory:     https://binarly.io/advisories/BRLY-2021-029/index.html
+    description:  SMM callout vulnerability in combined DXE/SMM driver on BullSequana Edge server
+    volume guids:
+      - E8571188-00C1-4ED4-B14E-E38451351EC4
+  code:
+    0:
+      pattern: 48b....00000000000804889..08
+        # 48bb0300000000000080                mov     rbx, EFI_UNSUPPORTED
+        # 48895e08                            mov     [rsi+8], rbx
+      place:
+        - child_sw_smi_handlers
+    1:
+      pattern: 498bf04d85c00f84........4d85c90f84........498b0048ffc874
+        # 498bf0                              mov     rsi, r8
+        # 4d85c0                              test    r8, r8
+        # 0f841b030000                        jz      loc_800026F6
+        # 4d85c9                              test    r9, r9
+        # 0f8412030000                        jz      loc_800026F6
+        # 498b00                              mov     rax, [r8]
+        # 48ffc8                              dec     rax
+        # 740e                                jz      short loc_800023FA; EFI_BOOT_SERVICES *gBS
+      place:
+        - child_sw_smi_handlers

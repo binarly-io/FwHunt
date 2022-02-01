@@ -1,0 +1,31 @@
+BRLY-2021-030:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-030
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-24031
+    advisory:     https://binarly.io/advisories/BRLY-2021-030/index.html
+    description:  SMM memory corruption vulnerability in combined DXE/SMM driver on BullSequana Edge server
+    volume guids:
+      - 5BE3BDF4-53CF-46A3-A6A9-73C34A6E5EE3
+  guids:
+    - 0:
+      - name: EFI_STORAGE_SECURITY_COMMAND_PROTOCOL_GUID
+      - value: C88B0B6D-0DFC-49A7-9CB4-49074B4C3A78
+  code:
+    0:
+      pattern: 4c8d8b30ffffff488d05....0000488d15....0000498901488d05....0000488d4c24..48898338ffffff488b05....00004533c0ff90a8000000
+        # 4c8d8b30ffffff                      lea     r9, [rbx-0D0h]; Interface
+        # 488d05c12c0000                      lea     rax, sub_41E8
+        # 488d15727b0000                      lea     rdx, EFI_STORAGE_SECURITY_COMMAND_PROTOCOL_GUID_90A0; Protocol
+        # 498901                              mov     [r9], rax
+        # 488d05b02f0000                      lea     rax, sub_44E8
+        # 488d4c2430                          lea     rcx, [rsp+28h+Handle]; Handle
+        # 48898338ffffff                      mov     [rbx-0C8h], rax
+        # 488b051d840000                      mov     rax, cs:gSmst_9968
+        # 4533c0                              xor     r8d, r8d; InterfaceType
+        # ff90a8000000                        call    [rax+_EFI_SMM_SYSTEM_TABLE2.SmmInstallProtocolInterface]; gSmst->SmmInstallProtocolInterface
+      place:
+        - child_sw_smi_handlers
