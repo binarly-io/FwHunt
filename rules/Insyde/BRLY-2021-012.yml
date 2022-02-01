@@ -8,7 +8,6 @@ BRLY-2021-012:
     CVE number:   CVE-2021-45971
     advisory:     https://binarly.io/advisories/BRLY-2021-012/index.html
     description:  SMM memory corruption vulnerability in combined DXE/SMM driver on Fujitsu device (SMRAM write)
-    url: https://github.com/binarly-io/VulnREsearch/blob/main/BRLY_Disclosures/Fujitsu/BRLY-2021-012.md
     volume guids:
       - 67BBC344-84BC-4E5C-B4DF-F5E4A00E1F3A
   code:

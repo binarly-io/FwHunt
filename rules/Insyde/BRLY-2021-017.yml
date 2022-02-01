@@ -8,7 +8,6 @@ BRLY-2021-017:
     CVE number:   CVE-2021-41839
     advisory:     https://binarly.io/advisories/BRLY-2021-017/index.html
     description:  SMM callout vulnerability in SMM driver on Fujitsu device (SMM arbitrary code execution)
-    url: https://github.com/binarly-io/VulnREsearch/blob/main/BRLY_Disclosures/Fujitsu/BRLY-2021-017.md
     volume guids:
       - 5BE3BDF4-53CF-46A3-A6A9-73C34A6E5EE3
   guids:
