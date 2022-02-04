@@ -1,0 +1,35 @@
+BRLY-2021-006:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-006
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2021-39300
+    advisory:     https://binarly.io/advisories/BRLY-2021-006/index.html
+    description:  The stack buffer overflow vulnerability leads to arbitrary code execution in UEFI application on multiple HP devices
+    volume guids:
+      - 53132845-B75A-44F7-912D-DE964E1C37D9
+  wide_strings:
+    0: CoolControlData
+  hex_strings:
+    0: 4c8d4d..4c8d45..48894424..488b05....0000488d15....0000488d0d....000048c745..08000000ff5048488bd84885c074..488d45..4c8d4d..4c8d45..488944..20488b05....0000488d15....0000488d0d....0000ff5048
+        # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
+        # 4c8d4520                            lea     r8, [rbp+Attributes]; Attributes
+        # 4889442420                          mov     [rsp+68h+Data], rax; Data
+        # 488b05940c0000                      mov     rax, cs:gRT
+        # 488d15cd080000                      lea     rdx, stru_2010; VendorGuid
+        # 488d0d260c0000                      lea     rcx, aCoolcontroldat; "CoolControlData"
+        # 48c7452808000000                    mov     [rbp+DataSize], 8
+        # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+        # 488bd8                              mov     rbx, rax
+        # 4885c0                              test    rax, rax
+        # 7431                                jz      short loc_178E
+        # 488d45c8                            lea     rax, [rbp+var_38]
+        # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
+        # 4c8d4520                            lea     r8, [rbp+Attributes]; Attributes
+        # 4889442420                          mov     [rsp+68h+Data], rax; Data
+        # 488b055b0c0000                      mov     rax, cs:gRT
+        # 488d1594080000                      lea     rdx, stru_2010; VendorGuid
+        # 488d0ded0b0000                      lea     rcx, aCoolcontroldat; "CoolControlData"
+        # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
