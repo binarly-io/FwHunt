@@ -1,0 +1,40 @@
+BRLY-2021-038:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-038
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-23930
+    advisory:     https://binarly.io/advisories/BRLY-2021-038/index.html
+    description:  The heap buffer overflow vulnerability in child SW SMI handler on multiple HP devices
+    volume guids:
+      - 12D06948-6569-42C9-ABA3-E12BACE7B234
+  guids:
+    - 0:
+      - name: EFI_SMM_END_OF_DXE_PROTOCOL_GUID
+      - value: 24E70042-D5C5-4260-8C39-0AD3AA32E93D
+  code:
+    0:
+      pattern: 488943104c8bc34d8b0e488bcd498bd1e8....0000498b16488d4c24..e8
+        # 48894310                            mov     [rbx+10h], rax
+        # 4c8bc3                              mov     r8, rbx
+        # 4d8b0e                              mov     r9, [r14]
+        # 488bcd                              mov     rcx, rbp
+        # 498bd1                              mov     rdx, r9
+        # e889090000                          call    CopyMemS
+        # 498b16                              mov     rdx, [r14]
+        # 488d4c2430                          lea     rcx, [rsp+68h+CommBufferCopy1]
+        # e800090000                          call    Clear
+      place:
+        - child_sw_smi_handlers
+    1:
+      pattern: 488b05....00004c8d4424..48217424..488d0d....000033d2ff90d0000000
+        # 488b0584180000                      mov     rax, cs:gSmst
+        # 4c8d442478                          lea     r8, [rsp+68h+Interface]; Interface
+        # 4821742478                          and     [rsp+68h+Interface], rsi
+        # 488d0da3160000                      lea     rcx, EFI_SMM_END_OF_DXE_PROTOCOL_GUID; Protocol
+        # 33d2                                xor     edx, edx; Registration
+        # ff90d0000000                        call    [rax+_EFI_SMM_SYSTEM_TABLE2.SmmLocateProtocol]; gSmst->SmmLocateProtocol
+      place:
+        - child_sw_smi_handlers

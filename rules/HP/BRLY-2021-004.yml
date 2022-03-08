@@ -10,8 +10,6 @@ BRLY-2021-004:
     description:  SMM callout vulnerability in SMM driver on multiple HP devices (SMM arbitrary code execution)
     volume guids:
       - 62C38AE7-4BF4-4112-B2C8-88B50F317BC9
-  wide_strings:
-    0: AmdMemContextData
   code:
     0:
       pattern: 4d8d4b..488b05....00004d8d43..488bd949c743..20000000488d15....0000488d0d....0000ff5048
@@ -24,4 +22,4 @@ BRLY-2021-004:
         # 488d0db40a0000                      lea     rcx, VariableName; "AmdMemContextData"
         # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
       place:
-        - child_sw_smi_handlers
+        - sw_smi_handlers

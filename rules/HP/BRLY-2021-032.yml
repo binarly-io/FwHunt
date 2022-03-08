@@ -1,0 +1,44 @@
+BRLY-2021-032:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-032
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-23924
+    advisory:     https://binarly.io/advisories/BRLY-2021-032/index.html
+    description:  The heap buffer overflow vulnerability in child SW SMI handler on multiple HP devices
+    volume guids:
+      - 3F626A59-87D2-4FCF-B5DE-9D12A8B2AF88
+  wide_strings:
+    0: FactoryConfig
+    1: BuildId
+  code:
+    0:
+      pattern: e8....000041bcf40100004c3be048b80200000000000080
+        # e889210000                          call    GetStrSize
+        # 41bcf4010000                        mov     r12d, 500
+        # 4c3be0                              cmp     r12, rax
+        # 48b80200000000000080                mov     rax, EFI_INVALID_PARAMETER
+      place:
+        - child_sw_smi_handlers
+    1:
+      pattern: e8....0000488b7c24..4885ff74..4885c074..493bc4490f47c44885c074..483bfe74..4c8bc0488bd6488bcfe8
+        # e862200000                          call    GetStrSize
+        # 488b7c2470                          mov     rdi, [rsp+68h+VariableValue]
+        # 4885ff                              test    rdi, rdi
+        # 7424                                jz      short loc_1BF4
+        # 4885c0                              test    rax, rax
+        # 741f                                jz      short loc_1BF4
+        # 493bc4                              cmp     rax, r12
+        # 490f47c4                            cmova   rax, r12
+        # 4885c0                              test    rax, rax
+        # 7413                                jz      short loc_1BF4
+        # 483bfe                              cmp     rdi, rsi
+        # 740e                                jz      short loc_1BF4
+        # 4c8bc0                              mov     r8, rax; Length
+        # 488bd6                              mov     rdx, rsi; SourceBuffer
+        # 488bcf                              mov     rcx, rdi; DestinationBuffer
+        # e8dcf5ffff                          call    CopyMem
+      place:
+        - child_sw_smi_handlers
