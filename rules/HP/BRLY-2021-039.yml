@@ -1,0 +1,45 @@
+BRLY-2021-039:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-039
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-23931
+    advisory:     https://binarly.io/advisories/BRLY-2021-039/index.html
+    description:  The heap buffer overflow vulnerability in child SW SMI handler on multiple HP devices
+    volume guids:
+      - 0D966D65-8F25-4574-8EAF-6C0463F38742
+  code:
+    0:
+      pattern: 498bd84d85c00f84........4d85c90f84........498b1148be0200000000000080488d8260ffffff48f7d8481bc94823ce
+        # 498bd8                              mov     rbx, r8
+        # 4d85c0                              test    r8, r8
+        # 0f8421010000                        jz      loc_1904
+        # 4d85c9                              test    r9, r9
+        # 0f8418010000                        jz      loc_1904
+        # 498b11                              mov     rdx, [r9]; a2
+        # 48be0200000000000080                mov     rsi, 8000000000000002h
+        # 488d8260ffffff                      lea     rax, [rdx-0A0h]
+        # 48f7d8                              neg     rax
+        # 481bc9                              sbb     rcx, rcx
+        # 4823ce                              and     rcx, rsi
+      place:
+        - child_sw_smi_handlers
+    1:
+      pattern: 488bd7488bcbe8........488905....00000fb6100fb648014803ca488b500848c1e104e8........488b15....00000fb64a0348894208
+        # 488bd7                              mov     rdx, rdi
+        # 488bcb                              mov     rcx, rbx
+        # e837f8ffff                          call    GetCopy
+        # 488905040f0000                      mov     cs:gBufferCopy, rax
+        # 0fb610                              movzx   edx, byte ptr [rax]
+        # 0fb64801                            movzx   ecx, byte ptr [rax+1]
+        # 4803ca                              add     rcx, rdx
+        # 488b5008                            mov     rdx, [rax+8]
+        # 48c1e104                            shl     rcx, 4
+        # e819f8ffff                          call    GetCopy
+        # 488b15e60e0000                      mov     rdx, cs:gBufferCopy
+        # 0fb64a03                            movzx   ecx, byte ptr [rdx+3]
+        # 48894208                            mov     [rdx+8], rax
+      place:
+        - child_sw_smi_handlers

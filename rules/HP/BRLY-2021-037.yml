@@ -1,0 +1,45 @@
+BRLY-2021-037:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-037
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-23929
+    advisory:     https://binarly.io/advisories/BRLY-2021-037/index.html
+    description:  SMM memory corruption vulnerability in SMM driver on multiple HP devices
+    volume guids:
+      - F66AC4DD-F73D-4252-A6B4-8A48E11FE99C
+  code:
+    0:
+      pattern: 498bd84d85c074..4d85c974..4983391875..498b084885c974..418378080076..418b500832c04885d2
+        # 498bd8                              mov     rbx, r8
+        # 4d85c0                              test    r8, r8
+        # 7474                                jz      short loc_1892
+        # 4d85c9                              test    r9, r9
+        # 746f                                jz      short loc_1892
+        # 49833918                            cmp     qword ptr [r9], 18h
+        # 7569                                jnz     short loc_1892
+        # 498b08                              mov     rcx, [r8]; Buffer
+        # 4885c9                              test    rcx, rcx
+        # 7461                                jz      short loc_1892
+        # 4183780800                          cmp     dword ptr [r8+8], 0
+        # 765a                                jbe     short loc_1892
+        # 418b5008                            mov     edx, [r8+8]; Length
+        # 32c0                                xor     al, al
+        # 4885d2                              test    rdx, rdx
+      place:
+        - child_sw_smi_handlers
+    1:
+      pattern: 488d5010488905....00004885d274..483bda74..41b826000000488bcbe8
+        # 488d5010                            lea     rdx, [rax+10h]; SourceBuffer
+        # 488905a8170000                      mov     cs:gPointer, rax
+        # 4885d2                              test    rdx, rdx
+        # 7413                                jz      short loc_1930
+        # 483bda                              cmp     rbx, rdx
+        # 740e                                jz      short loc_1930
+        # 41b826000000                        mov     r8d, 38; Length
+        # 488bcb                              mov     rcx, rbx; DestinationBuffer
+        # e8a0f8ffff                          call    CopyMem
+      place:
+        - child_sw_smi_handlers

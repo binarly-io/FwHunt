@@ -13,22 +13,20 @@ BRLY-2021-005:
   wide_strings:
     0: DptfOptions
   hex_strings:
-    0: 48894424..488b05........4c8d4d..4c8d45..488d0d........488bd3ff504848b90500000000000080483bc10f85........488d45..4c8d4d..4c8d45..48894424..488b05........488d0d........488bd3ff5048
-        # 4889442420                          mov     [rsp+68h+Data], rax; Data
-        # 488b05e20e0000                      mov     rax, cs:gRT
+    0: 4c8d4d..4c8d45..488bcb488d15........ff504848b90500000000000080483bc10f85........488d45..488bcb488944....4c8d4d..488b05........4c8d45..488d15........ff5048
         # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
-        # 4c8d4520                            lea     r8, [rbp+Attributes]; Attributes
-        # 488d0d5b0e0000                      lea     rcx, VariableName; "DptfOptions"
-        # 488bd3                              mov     rdx, rbx; VendorGuid
+        # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+        # 488bcb                              mov     rcx, rbx; VariableName
+        # 488d15a0180000                      lea     rdx, VendorGuid; VendorGuid
         # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
         # 48b90500000000000080                mov     rcx, 8000000000000005h
         # 483bc1                              cmp     rax, rcx
-        # 0f851e020000                        jnz     loc_1724
-        # 488d45d0                            lea     rax, [rbp+var_30]
+        # 0f8549020000                        jnz     loc_1A4F
+        # 488d45e0                            lea     rax, [rbp+Data]
+        # 488bcb                              mov     rcx, rbx; VariableName
+        # 4889442420                          mov     [rsp+58h+var_38], rax; Data
         # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
-        # 4c8d4520                            lea     r8, [rbp+Attributes]; Attributes
-        # 4889442420                          mov     [rsp+68h+Data], rax; Data
-        # 488b05a20e0000                      mov     rax, cs:gRT
-        # 488d0d230e0000                      lea     rcx, VariableName; "DptfOptions"
-        # 488bd3                              mov     rdx, rbx; VendorGuid
+        # 488b056b1f0000                      mov     rax, cs:gRT
+        # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+        # 488d1568180000                      lea     rdx, VendorGuid; VendorGuid
         # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
