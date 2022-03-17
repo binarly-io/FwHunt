@@ -2,7 +2,7 @@ BRLY-2021-025:
   meta:
     author:       Binarly (https://github.com/binarly-io/FwHunt)
     license:      CC0-1.0
-    name:         BRLY-2021-024
+    name:         BRLY-2021-025
     version:      1.0
     namespace:    vulnerabilities
     CVE number:   CVE-2022-24069
