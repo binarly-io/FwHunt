@@ -1,0 +1,28 @@
+BRLY-2021-014:
+  meta:
+    author:       Binarly (https://github.com/binarly-io/FwHunt)
+    license:      CC0-1.0
+    name:         BRLY-2021-014
+    version:      1.0
+    namespace:    vulnerabilities
+    CVE number:   CVE-2022-28806
+    vendor id:    FCCL-IS-2021-090903
+    CVSS score:   8.2 High
+    advisory:     https://binarly.io/advisories/BRLY-2021-014/index.html
+    description:  SMM memory corruption vulnerability in combined DXE/SMM (SMRAM write)
+    volume guids:
+      - B0A6DB04-8A0F-4F4F-9C45-C3344515A583
+  code:
+    0:
+      pattern: e8....00008943010fb7442478668943070fb7442470668943058b44244089431933c0
+        # e8d70c0000                          call    sub_5858
+        # 894301                              mov     [rbx+1], eax
+        # 0fb7442478                          movzx   eax, word ptr [rsp+58h+arg_18]
+        # 66894307                            mov     [rbx+7], ax
+        # 0fb7442470                          movzx   eax, [rsp+58h+arg_10]
+        # 66894305                            mov     [rbx+5], ax
+        # 8b442440                            mov     eax, [rsp+58h+var_18]
+        # 894319                              mov     [rbx+19h], eax
+        # 33c0                                xor     eax, eax
+      place:
+        - child_sw_smi_handlers
