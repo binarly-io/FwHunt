@@ -1,0 +1,21 @@
+BRLY-2021-026:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-026
+    namespace: vulnerabilities
+    CVE number: CVE-2022-24030
+    advisory: https://binarly.io/advisories/BRLY-2021-026/index.html
+    description: SMM memory corruption vulnerability in combined DXE/SMM driver on BullSequana Edge server
+    volume guids:
+      - 3ACC966D-8E33-45C6-B4FE-62724BCD15A9
+  code:
+    and:
+      - pattern: 4989..24084c8d5c24..33c0498b5b..498b73..498be3
+          # 4989442408                          mov     [r12+8], rax
+          # 4c8d5c2460                          lea     r11, [rsp+60h+var_s0]
+          # 33c0                                xor     eax, eax
+          # 498b5b30                            mov     rbx, [r11+30h]
+          # 498b7338                            mov     rsi, [r11+38h]
+          # 498be3                              mov     rsp, r11
+        place: child_sw_smi_handlers

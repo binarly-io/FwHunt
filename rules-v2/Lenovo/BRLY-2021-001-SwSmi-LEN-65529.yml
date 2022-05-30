@@ -1,0 +1,22 @@
+BRLY-2021-001-SwSmi-LEN-65529:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-001
+    namespace: vulnerabilities
+    CVE number: CVE-2021-3452
+    vendor id: LEN-65529
+    advisory: https://binarly.io/advisories/BRLY-2021-001/index.html
+    description: SMM callout vulnerability on Lenovo ThinkPad laptops firmware (SMM arbitrary code execution)
+    volume guids:
+      - 658D56F0-4364-4721-B70E-732DDC8A2771
+  code:
+    and:
+      - pattern: 488b05....000033d24533c98d4a024533c0ff5068
+          # 488b054d0f0000                      mov     rax, cs:gRT_1B00
+          # 33d2                                xor     edx, edx; ResetStatus
+          # 4533c9                              xor     r9d, r9d; ResetData
+          # 8d4a02                              lea     ecx, [rdx+2]; ResetType
+          # 4533c0                              xor     r8d, r8d; DataSize
+          # ff5068                              call    [rax+EFI_RUNTIME_SERVICES.ResetSystem]; gRT->ResetSystem()
+        place: sw_smi_handlers

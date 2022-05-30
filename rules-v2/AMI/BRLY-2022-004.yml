@@ -1,0 +1,26 @@
+BRLY-2022-004:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-004
+    namespace: vulnerabilities
+    CVE number: CVE-2022-24419
+    advisory: https://binarly.io/advisories/BRLY-2022-004/index.html
+    description: SMM arbitrary code execution in USBRT SMM driver on Dell devices
+    volume guids:
+      - 04EAAAA1-29A1-11D7-8838-00500473D4EB
+  code:
+    and:
+      - pattern: 488b05........488b88....00004885c9....4883a0....000000....0fb704250e040000c1e00405040100008b084885c9
+          # 488b05cd590100                      mov     rax, cs:gUsbData
+          # 488b8840560000                      mov     rcx, [rax+5640h]
+          # 4885c9                              test    rcx, rcx
+          # 740a                                jz      short loc_80001C21
+          # 4883a04056000000                    and     qword ptr [rax+5640h], 0
+          # eb12                                jmp     short loc_80001C33
+          # 0fb704250e040000                    movzx   eax, word ptr ds:40Eh
+          # c1e004                              shl     eax, 4
+          # 0504010000                          add     eax, 104h
+          # 8b08                                mov     ecx, [rax]
+          # 4885c9                              test    rcx, rcx
+        place: sw_smi_handlers

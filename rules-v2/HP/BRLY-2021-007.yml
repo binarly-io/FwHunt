@@ -1,0 +1,29 @@
+BRLY-2021-007:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-007
+    namespace: vulnerabilities
+    CVE number: CVE-2021-39301
+    advisory: https://binarly.io/advisories/BRLY-2021-007/index.html
+    description: The stack buffer overflow vulnerability leads to arbitrary code execution in UEFI application on multiple HP devices
+    volume guids:
+      - C988BDED-6977-464D-B714-E61DEBD2DE97
+  wide_strings:
+    and:
+      - utf16le: BatterySafetyMode
+  hex_strings:
+    and:
+      - 48c745..01000000ff50484885c074..488d45104533c048894424..4c8d4d..488b05........488d55..488d0d........ff5048
+          # 48c7451801000000                    mov     [rbp+DataSize], 1
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 4885c0                              test    rax, rax
+          # 742a                                jz      short loc_7BED
+          # 488d4510                            lea     rax, [rbp+arg_0]
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 4889442420                          mov     [rsp+40h+Data], rax; Data
+          # 4c8d4d18                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b0556ff1400                      mov     rax, cs:gRT
+          # 488d55f0                            lea     rdx, [rbp+VendorGuid]; VendorGuid
+          # 488d0daba00500                      lea     rcx, aBatterysafetym_0; "BatterySafetyMode"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()

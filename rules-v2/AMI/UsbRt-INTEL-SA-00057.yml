@@ -1,0 +1,38 @@
+UsbRt-INTEL-SA-00057:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: UsbRt-INTEL-SA-00057
+    namespace: vulnerabilities
+    vendor id: INTEL-SA-00057
+    advisory: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00057.html
+    description: Detection for arbitrary code execution in SMM
+    volume guids:
+      - 04EAAAA1-29A1-11D7-8838-00500473D4EB
+  hex_strings:
+    and:
+      - d2e2d82a912ed14c95f5e78fe5ebe316
+      - 448b490b448b410f488b05........488bd90fb649014183c1f0488b530349c1e9044183c0034f8d14494183e0fc49c1e2064d8d4c0270498b4cc908e8
+          # 448b490b                            mov     r9d, [rcx+0Bh]
+          # 448b410f                            mov     r8d, [rcx+0Fh]
+          # 488b057b5a0100                      mov     rax, cs:UsbData
+          # 488bd9                              mov     rbx, rcx
+          # 0fb64901                            movzx   ecx, byte ptr [rcx+1]
+          # 4183c1f0                            add     r9d, 0FFFFFFF0h
+          # 488b5303                            mov     rdx, [rbx+3]
+          # 49c1e904                            shr     r9, 4
+          # 4183c003                            add     r8d, 3
+          # 4f8d1449                            lea     r10, [r9+r9*2]
+          # 4183e0fc                            and     r8d, 0FFFFFFFCh
+          # 49c1e206                            shl     r10, 6
+          # 4d8d4c0270                          lea     r9, [r10+rax+70h]
+          # 498b4cc908                          mov     rcx, [r9+rcx*8+8]
+          # e8a9feffff                          call    Invoke
+  code:
+    and:
+      - pattern: 0fb704250e040000c1e00405040100008b08
+          # 0fb704250e040000                    movzx   eax, word ptr ds:40Eh
+          # c1e004                              shl     eax, 4
+          # 0504010000                          add     eax, 104h
+          # 8b08                                mov     ecx, [rax]; data
+        place: sw_smi_handlers
