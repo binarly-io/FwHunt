@@ -1,0 +1,40 @@
+BRLY-2021-003:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-003
+    namespace: vulnerabilities
+    CVE number: CVE-2021-39297
+    advisory: https://binarly.io/advisories/BRLY-2021-003/index.html
+    description: The stack buffer overflow vulnerability leads to arbitrary code execution in UEFI application on multiple HP devices
+    volume guids:
+      - C988BDED-6977-464D-B714-E61DEBD2DE97
+  wide_strings:
+    and:
+      - utf16le: BiosDiags.log
+      - utf16le: PlatformLang
+  hex_strings:
+    and:
+      - 488d45..4533c048894424..4c8d4d..488b05........488d55..488d0d........ff50484885c0794c488d45..4533c048894424..4c8d4d..488b05........488d55..488d0d........ff5048
+          # 488d4530                            lea     rax, [rbp+Buffer]
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 4889442420                          mov     [rsp+40h+Data], rax; Data
+          # 4c8d4d38                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b05096e1100                      mov     rax, cs:gRT
+          # 488d55f0                            lea     rdx, [rbp+VendorGuid]; VendorGuid
+          # 488d0d76e10f00                      lea     rcx, aPlatformlang; "PlatformLang"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 4885c0                              test    rax, rax
+          # 794c                                jns     short loc_40D86
+          # 488d4530                            lea     rax, [rbp+Buffer]
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 4889442420                          mov     [rsp+40h+Data], rax; Data
+          # 4c8d4d38                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b05df6d1100                      mov     rax, cs:gRT
+          # 488d55f0                            lea     rdx, [rbp+VendorGuid]; VendorGuid
+          # 488d0d6ce10f00                      lea     rcx, aLang; "Lang"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+  guids:
+    and:
+      - name: EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID
+        value: 9042A9DE-23DC-4A38-96FB-7ADED080516A

@@ -1,0 +1,21 @@
+Lojax-SecDxe:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: Lojax-SecDxe
+    namespace: threats
+    description: Infected SecDxe driver associated with Lojax malware
+    url: https://www.eset.com/fileadmin/ESET/resources/datasheets/ESETus-datasheet-lojax.pdf
+    volume guids:
+      - 682894B5-6B70-4EBA-9E90-A607E5676297
+  protocols:
+    and:
+      - name: proprietary_protocol
+        value: 832D9B4D-D8D5-425F-BD52-5C5AFB2C85DC
+        service:
+          name: InstallProtocolInterface
+  wide_strings:
+    and:
+      - utf16le: NTFS File System Driver
+      - utf16le: rpcnetp.exe
+      - utf16le: autoche.exe

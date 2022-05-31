@@ -1,0 +1,33 @@
+BRLY-2021-005:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-005
+    namespace: vulnerabilities
+    CVE number: CVE-2021-39299
+    advisory: https://binarly.io/advisories/BRLY-2021-005/index.html
+    description: The stack buffer overflow vulnerability leads to arbitrary code execution in UEFI DXE driver on multiple HP devices
+    volume guids:
+      - 53132845-B75A-44F7-912D-DE964E1C37D9
+  wide_strings:
+    and:
+      - utf16le: DptfOptions
+  hex_strings:
+    and:
+      - 4c8d4d..4c8d45..488bcb488d15........ff504848b90500000000000080483bc10f85........488d45..488bcb488944....4c8d4d..488b05........4c8d45..488d15........ff5048
+          # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
+          # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+          # 488bcb                              mov     rcx, rbx; VariableName
+          # 488d15a0180000                      lea     rdx, VendorGuid; VendorGuid
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 48b90500000000000080                mov     rcx, 8000000000000005h
+          # 483bc1                              cmp     rax, rcx
+          # 0f8549020000                        jnz     loc_1A4F
+          # 488d45e0                            lea     rax, [rbp+Data]
+          # 488bcb                              mov     rcx, rbx; VariableName
+          # 4889442420                          mov     [rsp+58h+var_38], rax; Data
+          # 4c8d4d28                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b056b1f0000                      mov     rax, cs:gRT
+          # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+          # 488d1568180000                      lea     rdx, VendorGuid; VendorGuid
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()

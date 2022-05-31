@@ -1,0 +1,22 @@
+ESPecter:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: ESPecter
+    namespace: threats
+    description: EFI Bootloader associated with ESPecter malware
+    url: https://www.welivesecurity.com/2021/10/05/uefi-threats-moving-esp-introducing-especter-bootkit/
+  hex_strings:
+    - 813fff488365....817f04d0004883....817f0865400083....9090c647ebb8c747ec00000000c647f0c34831c0
+        # 813fff488365                        cmp     dword ptr [rdi], 658348FFh
+        # 75f4                                jnz     short loc_10169421
+        # 817f04d0004883                      cmp     dword ptr [rdi+4], 834800D0h
+        # 75eb                                jnz     short loc_10169421
+        # 817f0865400083                      cmp     dword ptr [rdi+8], 83004065h
+        # 75e2                                jnz     short loc_10169421
+        # 90                                  nop
+        # 90                                  nop
+        # c647ebb8                            mov     byte ptr [rdi-15h], 0B8h
+        # c747ec00000000                      mov     dword ptr [rdi-14h], 0
+        # c647f0c3                            mov     byte ptr [rdi-10h], 0C3h
+        # 4831c0                              xor     rax, rax

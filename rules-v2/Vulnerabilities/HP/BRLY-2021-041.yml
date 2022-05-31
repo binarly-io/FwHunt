@@ -1,0 +1,22 @@
+BRLY-2021-041:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-041
+    namespace: vulnerabilities
+    CVE number: CVE-2022-23933
+    advisory: https://binarly.io/advisories/BRLY-2021-041/index.html
+    description: SMM callout vulnerability in SMM driver on multiple HP devices (SMM arbitrary code execution)
+    volume guids:
+      - 6C9A8087-B68E-4F3D-B87D-A76C829C7D3E
+  code:
+    and:
+      - pattern: 4181384843464475..486915....0000af000000488b05....00004983c010b904000000ff5040
+          # 41813848434644                      cmp     dword ptr [r8], 44464348h
+          # 7566                                jnz     short loc_1A0E
+          # 4869155d280000af000000              imul    rdx, cs:BlocksNum, 0AFh ; '¯'; Size
+          # 488b05a6280000                      mov     rax, cs:gBS
+          # 4983c010                            add     r8, 10h; Buffer
+          # b904000000                          mov     ecx, 4; PoolType
+          # ff5040                              call    [rax+EFI_BOOT_SERVICES.AllocatePool]; gBS->AllocatePool()
+        place: child_sw_smi_handlers

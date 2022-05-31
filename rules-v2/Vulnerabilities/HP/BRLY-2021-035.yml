@@ -1,0 +1,23 @@
+BRLY-2021-035:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-035
+    namespace: vulnerabilities
+    CVE number: CVE-2022-23927
+    advisory: https://binarly.io/advisories/BRLY-2021-035/index.html
+    description: SMM memory corruption vulnerability in SMM driver on multiple HP devices
+    volume guids:
+      - E5D6844D-5486-436E-AC9D-C22F6759E926
+  code:
+    and:
+      - pattern: 4d85c974..49813900200000
+          # 4d85c9                              test    r9, r9
+          # 743c                                jz      short loc_16DB
+          # 49813900200000                      cmp     qword ptr [r9], 2000h
+        place: child_sw_smi_handlers
+      - pattern: e8........48..430833c0
+          # e861000000                          call    sub_1738
+          # 48894308                            mov     [rbx+8], rax
+          # 33c0                                xor     eax, eax
+        place: child_sw_smi_handlers

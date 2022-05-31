@@ -1,0 +1,25 @@
+BRLY-2021-016:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-016
+    namespace: vulnerabilities
+    CVE number: CVE-2021-45969
+    advisory: https://binarly.io/advisories/BRLY-2021-016/index.html
+    description: SMM memory corruption vulnerability in combined DXE/SMM driver on Fujitsu device (SMRAM write)
+    volume guids:
+      - 3ACC966D-8E33-45C6-B4FE-62724BCD15A9
+  code:
+    and:
+      - pattern: 4d85c00f84....00004d85c90f84....0000
+          # 4d85c0                              test    r8, r8
+          # 0f8444020000                        jz      loc_80000C79
+          # 4d85c9                              test    r9, r9
+          # 0f843b020000                        jz      loc_80000C79
+        place: child_sw_smi_handlers
+      - pattern: 74..49895e084c8d5c24..33c0
+          # 74aa                                jz      short loc_1DF9
+          # 49895e08                            mov     [r14+8], rbx
+          # 4c8d5c2470                          lea     r11, [rsp+70h+var_s0]
+          # 33c0                                xor     eax, eax
+        place: child_sw_smi_handlers

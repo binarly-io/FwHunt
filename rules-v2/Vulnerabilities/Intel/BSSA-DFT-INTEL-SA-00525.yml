@@ -1,0 +1,44 @@
+Intel-BSSA-DFT-INTEL-SA-00525:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: Intel-BSSA-DFT
+    namespace: vulnerabilities
+    CVE number: CVE-2021-0144
+    vendor id: INTEL-SA-00525
+    CVSS score: 7.5 High
+    advisory: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00525.html
+    url: https://binarly.io/posts/Detecting_Firmware_vulnerabilities_at_scale_Intel_BSSA_DFT_case_study
+    description: Intel BSSA DFT detection
+    volume guids:
+      - D71C8BA4-4AF2-4D0D-B1BA-F2409F0C20D3
+  wide_strings:
+    and:
+      - utf16le: syscg
+      - utf16le: toolh
+  hex_strings:
+    and:
+      - 56e8........593c01....80be....000000
+          # 56                                      push    esi
+          # E8 .. .. .. ..                          call    x_BiosSsaEnabled
+          # 59                                      pop     ecx
+          # 3C 01                                   cmp     al, 1
+          # .. ..                                   jnz     short loc_FFDE86FD
+          # 80 BE .. .. 00 00 00                    cmp     byte ptr [esi+81h], 0
+          # .. ..                                   jz      short loc_FFDE86FD
+      - 6a006a0268be00000056e8
+          # 6A 00                                   push    0
+          # 6A 02                                   push    2
+          # 68 BE 00 00 00                          push    0BEh
+          # 56                                      push    esi
+          # E8 .. .. .. ..                          call    SsaApi
+  ppi:
+    and:
+      - name: EFI_PEI_READ_ONLY_VARIABLE2_PPI_GUID
+        value: 2AB86EF5-ECB5-4134-B5563854CA1FE1B4
+        service:
+          name: LocatePpi
+  guids:
+    and:
+      - name: EFI_PLATFORM_INFO_GUID
+        value: 1E2ACC41-E26A-483D-AFC7A056C34E087B

@@ -1,0 +1,33 @@
+BRLY-2021-006:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-006
+    namespace: vulnerabilities
+    CVE number: CVE-2021-39300
+    advisory: https://binarly.io/advisories/BRLY-2021-006/index.html
+    description: The stack buffer overflow vulnerability leads to arbitrary code execution in UEFI application on multiple HP devices
+    volume guids:
+      - 53132845-B75A-44F7-912D-DE964E1C37D9
+  wide_strings:
+    and:
+      - utf16le: CoolControlData
+  hex_strings:
+    and:
+      - 4c8d4d..488b05........4c8d45..488d15........488d0d........ff50484885c074..488d45..488944....4c8d4d..488b05........4c8d45..488d15........488d0d........ff5048
+          # 4c8d4d20                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b0596120000                      mov     rax, cs:gRT
+          # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+          # 488d15430b0000                      lea     rdx, gVariableGuid; VendorGuid
+          # 488d0d2c120000                      lea     rcx, aCoolcontroldat; "CoolControlData"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 4885c0                              test    rax, rax
+          # 742e                                jz      short loc_253A
+          # 488d45f0                            lea     rax, [rbp+VariableData]
+          # 4889442420                          mov     [rsp+40h+Data], rax; Data
+          # 4c8d4d20                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b0568120000                      mov     rax, cs:gRT
+          # 4c8d4518                            lea     r8, [rbp+Attributes]; Attributes
+          # 488d15150b0000                      lea     rdx, gVariableGuid; VendorGuid
+          # 488d0dfe110000                      lea     rcx, aCoolcontroldat; "CoolControlData"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()

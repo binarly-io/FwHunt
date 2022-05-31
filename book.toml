@@ -1,0 +1,6 @@
+[book]
+authors = ["FwHunt team"]
+language = "en"
+multilingual = false
+src = "spec"
+title = "FwHunt rule format v2 specification"

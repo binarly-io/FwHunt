@@ -1,0 +1,24 @@
+BRLY-2021-019:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-019
+    namespace: vulnerabilities
+    CVE number: CVE-2021-41840
+    advisory: https://binarly.io/advisories/BRLY-2021-019/index.html
+    description: SMM callout vulnerability in SMM driver on Fujitsu device (SMM arbitrary code execution)
+    volume guids:
+      - 67BBC344-84BC-4E5C-B4DF-F5E4A00E1F3A
+  code:
+    and:
+      - pattern: 488b05....00004c8d45..488d0d....000033d2ff9040010000
+          # 488b057f350000                      mov     rax, cs:gBS_80003E80; EFI_BOOT_SERVICES *gBS
+          # 4c8d4538                            lea     r8, [rbp+EfiAcpiSupportProtocol]; Interface
+          # 488d0d54330000                      lea     rcx, EFI_ACPI_SUPPORT_PROTOCOL_GUID_80003C60; Protocol
+          # 33d2                                xor     edx, edx; Registration
+          # ff9040010000                        call    [rax+EFI_BOOT_SERVICES.LocateProtocol]; gBS->LocateProtocol()
+        place: child_sw_smi_handlers
+  guids:
+    and:
+      - name: EFI_ACPI_SUPPORT_PROTOCOL_GUID
+        value: DBFF9D55-89B7-46DA-BDDF-677D3DC0241D
