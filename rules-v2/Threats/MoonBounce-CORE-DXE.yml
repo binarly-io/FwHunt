@@ -1,0 +1,63 @@
+MoonBounce-CORE-DXE:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: MoonBounce-CORE-DXE
+    namespace: threats
+    description: Infected CORE_DXE driver associated with MoonBounce malware
+    url: https://binarly.io/posts/A_deeper_UEFI_dive_into_MoonBounce
+    volume guids:
+      - 5AE3F37E-4EAE-41AE-8240-35465B5E81EB
+  hex_strings:
+    or:
+      - c60048c740018bc448899c5351524150415156574883ec38e800000000
+          # Hook for CoreCreateEventInternal
+          # c60048                              mov     byte ptr [rax], 48h ; 'H'
+          # c740018bc44889                      mov     dword ptr [rax+1], 8948C48Bh
+          # 9c                                  pushfq
+          # 53                                  push    rbx
+          # 51                                  push    rcx
+          # 52                                  push    rdx
+          # 4150                                push    r8
+          # 4151                                push    r9
+          # 56                                  push    rsi
+          # 57                                  push    rdi
+          # 4883ec38                            sub     rsp, 38h
+          # e800000000                          call    $+5
+      - c60048c74001895c24089c5351524150415156574883ec48e800000000
+          # Hook for AllocatePool
+          # c60048                              mov     byte ptr [rax], 48h ; 'H'
+          # c74001895c2408                      mov     dword ptr [rax+1], 8245C89h
+          # 9c                                  pushfq
+          # 53                                  push    rbx
+          # 51                                  push    rcx
+          # 52                                  push    rdx
+          # 4150                                push    r8
+          # 4151                                push    r9
+          # 56                                  push    rsi
+          # 57                                  push    rdi
+          # 4883ec48                            sub     rsp, 48h
+          # e800000000                          call    $+5
+      - c60048c74001895c2408488b4424089c53515241504151565731c9ffc181f978881500
+          # Hook for CoreExitBootServices
+          # c60048                              mov     byte ptr [rax], 48h ; 'H'
+          # c74001895c2408                      mov     dword ptr [rax+1], 8245C89h
+          # 488b442408                          mov     rax, [rsp+Ptr]
+          # 9c                                  pushfq
+          # 53                                  push    rbx
+          # 51                                  push    rcx
+          # 52                                  push    rdx
+          # 4150                                push    r8
+          # 4151                                push    r9
+          # 56                                  push    rsi
+          # 57                                  push    rdi
+          # 31c9                                xor     ecx, ecx
+          # ffc1                                inc     ecx
+          # 81f978881500                        cmp     ecx, 158878h
+    and:
+      - ffc181f978881500....67813c08415548cb
+          # Part of Search_OslArchTransferToKernel shellcode
+          # ffc1                                inc     ecx
+          # 81f978881500                        cmp     ecx, 158878h
+          # 7f32                                jg      short X64_Hook_BootMgr_Return
+          # 67813c08415548cb                    cmp     dword ptr [eax+ecx], 0CB485541h

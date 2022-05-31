@@ -1,0 +1,50 @@
+MosaicRegressor:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: MosaicRegressor
+    namespace: threats
+    description: Malicious component associated with MosaicRegressor malware
+    url: https://securelist.com/mosaicregressor/98849/
+    volume guids:
+      - F50258A9-2F4D-4DA9-861E-BDA84D07A44C # SmmInterfaceBase
+      - EAEA9AEC-C9C1-46E2-9D52-432AD25A9B0C # SmmReset
+      - EAEA9AEC-C9C1-46E2-9D52-432AD25A9B0B # SmmAccessSub
+  variants:
+    SmmInterfaceBase:
+      hex_strings:
+        and:
+          - c60004488b4424..c6400106488b4424..c6400214488b4424..c6400300488b4c24..4883c10441b810000000488d15........488b05........ff9060010000
+              # c60004                              mov     byte ptr [rax], 4
+              # 488b442458                          mov     rax, [rsp+0B8h+var_60]
+              # c6400106                            mov     byte ptr [rax+1], 6
+              # 488b442458                          mov     rax, [rsp+0B8h+var_60]
+              # c6400214                            mov     byte ptr [rax+2], 14h
+              # 488b442458                          mov     rax, [rsp+0B8h+var_60]
+              # c6400300                            mov     byte ptr [rax+3], 0
+              # 488b4c2458                          mov     rcx, [rsp+0B8h+var_60]
+              # 4883c104                            add     rcx, 4; Destination
+              # 41b810000000                        mov     r8d, 10h; Length
+              # 488d1586fdffff                      lea     rdx, qword_270; Source
+              # 488b058f010000                      mov     rax, cs:gBS
+              # ff9060010000                        call    [rax+EFI_BOOT_SERVICES.CopyMem]; gBS->CopyMem()
+          - 1f759f38381888438390cd8154bd27f8
+              # EFI_FIRMWARE_VOLUME_PROTOCOL_GUID
+          - 916e57093f6dd2118e3900a0c969723b
+              # EFI_DEVICE_PATH_PROTOCOL_GUID
+          - a1311b5b6295d2118e3f00a0c969723b
+              # EFI_LOADED_IMAGE_PROTOCOL_GUID
+    SmmReset:
+      hex_strings:
+        - 61dfe48bca93d211aa0d00e098302288
+      wide_strings:
+        and:
+          - utf16le: fTA
+    SmmAccessSub:
+      wide_strings:
+        and:
+          - utf16le: setupinf.log
+          - utf16le: IntelUpdate.exe
+      hex_strings:
+        and:
+          - 5c00500072006f006700720061006d0044006100740061005c004d006900630072006f0073006f00660074005c00570069006e0064006f00770073005c005300740061007200740020004d0065006e0075005c00500072006f006700720061006d0073005c0053007400610072007400750070005c000000
