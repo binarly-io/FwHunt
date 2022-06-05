@@ -1,4 +1,4 @@
-# NVRAM
+# GUIDs
 
 Similar with [protocols](./protocols.md)
 
