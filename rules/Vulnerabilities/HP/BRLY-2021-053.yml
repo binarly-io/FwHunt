@@ -6,7 +6,7 @@ BRLY-2021-053:
     namespace: vulnerabilities
     CVE number: CVE-2021-39299, CVE-2021-39300
     advisory: https://binarly.io/advisories/BRLY-2021-053/index.html
-    description: SMM memory corruption vulnerability in SMM driver
+    description: The stack buffer overflow vulnerability in DXE Driver
     volume guids:
       - 03E0A38B-3FBE-49CB-B311-726611213182
   hex_strings:
