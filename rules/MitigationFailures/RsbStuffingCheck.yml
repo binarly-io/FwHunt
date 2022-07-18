@@ -1,0 +1,20 @@
+RsbStuffingCheck:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: RsbStuffingCheck
+    namespace: MitigationFailures
+    description: Check if StuffRsb used before RSM
+    url: https://binarly.io/posts/FirmwareBleed_The_industry_fails_to_adopt_Return_Stack_Buffer_mitigations_in_SMM
+    volume guids:
+      - a3ff0ef5-0c28-42f5-b544-8c7de1e80014
+  variants:
+    The patch from EDK2 is missing:
+      hex_strings:
+        not-any:
+          - f3900faee8eb..48ffc875..4881c4........0faa
+    RSB Stuffing before RSM skipped in SMI Entry code:
+      hex_strings:
+        or:
+          - 48b800000000000000008a003c0074..b9....000089d831d20f300faa
+          - 8a003c0074..5af7c20400000074..b9....00000f326683ca040f300faa
