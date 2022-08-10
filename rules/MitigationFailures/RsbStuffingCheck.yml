@@ -2,7 +2,7 @@ RsbStuffingCheck:
   meta:
     author: Binarly (https://github.com/binarly-io/FwHunt)
     license: CC0-1.0
-    name: RsbStuffingCheck
+    name: BRLY-2022-028 (RsbStuffingCheck)
     namespace: MitigationFailures
     description: Check if StuffRsb used before RSM
     url: https://binarly.io/posts/FirmwareBleed_The_industry_fails_to_adopt_Return_Stack_Buffer_mitigations_in_SMM
