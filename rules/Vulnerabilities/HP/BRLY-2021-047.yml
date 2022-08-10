@@ -1,0 +1,28 @@
+BRLY-2021-047:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2021-047
+    namespace: vulnerabilities
+    CVE number: CVE-2022-31641
+    advisory: https://binarly.io/advisories/BRLY-2021-047/index.html
+    description: SMM callout vulnerability in SMM driver (SMM arbitrary code execution)
+    volume guids:
+      - 0d966d65-8f25-4574-8eaf-6c0463f38742
+  code:
+    and:
+      - pattern: 488b05........4885c0....488b05........4c8d05........33d2488d0d........ff9040010000488b05
+          # 488b0511170000                      mov     rax, cs:gPcdProtocol
+          # 4885c0                              test    rax, rax
+          # 7524                                jnz     short loc_1AD8
+          # 488b0515170000                      mov     rax, cs:gBS; EFI_BOOT_SERVICES *gBS
+          # 4c8d05fe160000                      lea     r8, gPcdProtocol; Interface
+          # 33d2                                xor     edx, edx; Registration
+          # 488d0d55150000                      lea     rcx, PCD_PROTOCOL_GUID; Protocol
+          # ff9040010000                        call    [rax+EFI_BOOT_SERVICES.LocateProtocol]; gBS->LocateProtocol()
+          # 488b05e8160000                      mov     rax, cs:gPcdProtocol
+        place: child_sw_smi_handlers
+      - pattern: 8b03b955434647
+          # 8b03                                mov     eax, [rbx]
+          # b955434647                          mov     ecx, 47464355h
+        place: child_sw_smi_handlers

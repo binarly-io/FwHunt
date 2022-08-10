@@ -1,0 +1,35 @@
+BRLY-2022-016:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-016
+    namespace: vulnerabilities
+    CVE number: CVE-2022-33209
+    advisory: https://binarly.io/advisories/BRLY-2022-016/index.html
+    description: Stack overflow vulnerability in SMI handler
+    volume guids:
+      - 8e61fd6b-7a8b-404f-b83f-aa90a47cabdf
+  code:
+    and:
+      - pattern: 488b4320448a4b14448b4310488b530848894424..488b431848894424..488b05........488bc8ff10
+          # 488b4320                            mov     rax, [rbx+20h]
+          # 448a4b14                            mov     r9b, [rbx+14h]
+          # 448b4310                            mov     r8d, [rbx+10h]
+          # 488b5308                            mov     rdx, [rbx+8]
+          # 4889442428                          mov     [rsp+38h+var_10], rax
+          # 488b4318                            mov     rax, [rbx+18h]
+          # 4889442420                          mov     [rsp+38h+var_18], rax
+          # 488b05661b0000                      mov     rax, cs:gSmbiosElog
+          # 488bc8                              mov     rcx, rax
+          # ff10                                call    qword ptr [rax]
+        place: child_sw_smi_handlers
+  hex_strings:
+      - fbf7729cb6866f40b86ef3809a86c138 # AMI_SMM_DUMMY_PROTOCOL_REDIR_GUID
+      - 488d5708488d4c24..483bca............4c8bc0488d4c24..e8
+          # 488d5708                            lea     rdx, [rdi+8]; SourceBuffer
+          # 488d4c2440                          lea     rcx, [rsp+160h+DestinationBuffer]
+          # 483bca                              cmp     rcx, rdx
+          # 0f84b4000000                        jz      loc_1E34
+          # 4c8bc0                              mov     r8, rax; Length
+          # 488d4c2440                          lea     rcx, [rsp+160h+DestinationBuffer]; DestinationBuffer
+          # e873f2ffff                          call    CopyMem

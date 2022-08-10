@@ -1,0 +1,35 @@
+BRLY-2022-011:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-011
+    namespace: vulnerabilities
+    CVE number: CVE-2022-31644
+    advisory: https://binarly.io/advisories/BRLY-2022-011/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write/read)
+    volume guids:
+      - 86930b1d-f85d-4275-ac97-10a7a57f3e2e
+  code:
+    and:
+      - pattern: 49833918....49833800....498d7808833f00....8b17498b08e8........8ac848bd1a00000000000080
+          # 49833918                            cmp     qword ptr [r9], 18h
+          # 7576                                jnz     short loc_27D4
+          # 49833800                            cmp     qword ptr [r8], 0
+          # 7452                                jz      short loc_27B6
+          # 498d7808                            lea     rdi, [r8+8]
+          # 833f00                              cmp     dword ptr [rdi], 0
+          # 7449                                jz      short loc_27B6
+          # 8b17                                mov     edx, [rdi]
+          # 498b08                              mov     rcx, [r8]
+          # e85d190000                          call    CheckSmramMap
+          # 8ac8                                mov     cl, al
+          # 48bd1a00000000000080                mov     rbp, 800000000000001Ah
+        place: child_sw_smi_handlers
+      - pattern: 837b0c00....48b80300000000000080....488b0be8
+          # 837b0c00                            cmp     dword ptr [rbx+0Ch], 0
+          # 740c                                jz      short loc_27C8;
+          # 48b80300000000000080                mov     rax, EFI_UNSUPPORTED
+          # eb08                                jmp     short loc_27D0
+          # 488b0b                              mov     rcx, [rbx]; Buffer size is not passed inside
+          # e818fdffff                          call    sub_24E8
+        place: child_sw_smi_handlers

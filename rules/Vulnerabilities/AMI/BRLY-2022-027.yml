@@ -1,0 +1,38 @@
+BRLY-2022-027:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-027
+    namespace: vulnerabilities
+    CVE number: CVE-2022-28858
+    advisory: https://binarly.io/advisories/BRLY-2022-027/index.html
+    description: The stack buffer overflow vulnerability leads to arbitrary code execution during PEI phase
+    volume guids:
+      - 56bbc314-b442-4d5a-ba5c-d842dafdbb24
+  wide_strings:
+    and:
+      - utf16le: SaSetup
+      - utf16le: CpuSetup
+  hex_strings:
+    and:
+      - 8d85........508d45..508b45..536830......6880......50ff108d85........508d45..508b45..536870......6840e9......ff10
+          # 8d85c0fbffff                        lea     eax, [ebp+Data]
+          # 50                                  push    eax; Data
+          # 8d45f8                              lea     eax, [ebp+DataSize]
+          # 50                                  push    eax; DataSize
+          # 8b45fc                              mov     eax, [ebp+ReadOnlyVariable2Ppi]
+          # 53                                  push    ebx; Attributes
+          # 6830e2d5ff                          push    offset gSaSetupGuid; VariableGuid
+          # 6880e9d5ff                          push    offset aSasetup; "SaSetup"
+          # 50                                  push    eax; This
+          # ff10                                call    [eax+EFI_PEI_READ_ONLY_VARIABLE2_PPI.GetVariable]; VariablePPI->GetVariable()
+          # 8d85c0fbffff                        lea     eax, [ebp+Data]
+          # 50                                  push    eax; Data
+          # 8d45f8                              lea     eax, [ebp+DataSize]
+          # 50                                  push    eax; DataSize
+          # 8b45fc                              mov     eax, [ebp+ReadOnlyVariable2Ppi]
+          # 53                                  push    ebx; Attributes
+          # 6870dfd5ff                          push    offset gCpuSetupGuid; VariableGuid
+          # 6840e9d5ff                          push    offset aCpusetup; "CpuSetup"
+          # 50                                  push    eax; This
+          # ff10                                call    [eax+EFI_PEI_READ_ONLY_VARIABLE2_PPI.GetVariable]; VariablePPI->GetVariable()

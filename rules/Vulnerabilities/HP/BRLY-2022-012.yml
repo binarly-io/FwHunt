@@ -1,0 +1,30 @@
+BRLY-2022-012:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-012
+    namespace: vulnerabilities
+    CVE number: CVE-2022-31645
+    advisory: https://binarly.io/advisories/BRLY-2022-012/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write/read)
+    volume guids:
+      - b7cd60d6-4627-4411-8b6d-c60ba7fab120
+  code:
+    and:
+      - pattern: 498339180f..........498b184885db0f..........41837808000f..........418b50084885d20f..........488bcbe8........84c00f..........c6432500
+          # 49833918                            cmp     qword ptr [r9], 18h
+          # 0f856f010000                        jnz     loc_27D5
+          # 498b18                              mov     rbx, [r8]
+          # 4885db                              test    rbx, rbx
+          # 0f8463010000                        jz      loc_27D5
+          # 4183780800                          cmp     dword ptr [r8+8], 0
+          # 0f8658010000                        jbe     loc_27D5
+          # 418b5008                            mov     edx, [r8+8]
+          # 4885d2                              test    rdx, rdx
+          # 0f844b010000                        jz      loc_27D5
+          # 488bcb                              mov     rcx, rbx
+          # e8b61d0000                          call    CheckSmramMap
+          # 84c0                                test    al, al
+          # 0f843b010000                        jz      loc_27D5
+          # c6432500                            mov     byte ptr [rbx+25h], 0; buffer size pointed by ptr not validated, OOB write
+        place: child_sw_smi_handlers

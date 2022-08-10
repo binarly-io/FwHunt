@@ -1,0 +1,43 @@
+BRLY-2022-013:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-013
+    namespace: vulnerabilities
+    CVE number: CVE-2022-31645
+    advisory: https://binarly.io/advisories/BRLY-2022-013/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write/read)
+    volume guids:
+      - de1b74e3-4a7f-fe08-058e-ac8678f99112
+  code:
+    and:
+      - pattern: 482d8802000048f7d8481bc94823cd0f..........498b11488d0d........e8........4c8b15........4d85d20f..........4c8b034d85c0....4c3bd7....488bd7498bcae8
+          # 482d88020000                        sub     rax, 288h
+          # 48f7d8                              neg     rax
+          # 481bc9                              sbb     rcx, rcx
+          # 4823cd                              and     rcx, rbp
+          # 0f85c4000000                        jnz     loc_1EA0
+          # 498b11                              mov     rdx, [r9]
+          # 488d0d921d0000                      lea     rcx, gCommBufferCopy
+          # e8dd040000                          call    SmmAllocateZeroWrapper
+          # 4c8b15861d0000                      mov     r10, cs:gCommBufferCopy
+          # 4d85d2                              test    r10, r10
+          # 0f84a5000000                        jz      loc_1EA0
+          # 4c8b03                              mov     r8, [rbx] ; Length
+          # 4d85c0                              test    r8, r8
+          # 7417                                jz      short loc_1E1A
+          # 4c3bd7                              cmp     r10, rdi
+          # 7412                                jz      short loc_1E1A
+          # 488bd7                              mov     rdx, rdi; SourceBuffer
+          # 498bca                              mov     rcx, r10; DestinationBuffer
+          # e8edf1ffff                          call    CopyMem
+        place: child_sw_smi_handlers
+    and:
+      - pattern: 4885c0....4c8b441f184b8d14364a8b4c1318e8
+          # 4885c0                              test    rax, rax
+          # 751a                                jnz     short loc_1E8C
+          # 4c8b441f18                          mov     r8, [rdi+rbx+18h]; size
+          # 4b8d1436                            lea     rdx, [r14+r14]; src
+          # 4a8b4c1318                          mov     rcx, [rbx+r10+18h]; dst
+          # e853010000                          call    WStringCopy
+        place: child_sw_smi_handlers

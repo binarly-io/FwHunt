@@ -1,0 +1,35 @@
+BRLY-2022-010:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-010
+    namespace: vulnerabilities
+    CVE number: CVE-2022-23930
+    advisory: https://binarly.io/advisories/BRLY-2022-010/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write/read)
+    volume guids:
+      - 12d06948-6569-42c9-aba3-e12bace7b234
+  code:
+    and:
+      - pattern: 488d4b284c8b11488d53404d85d2....488d6b4048036b30803b004c8d431848896c24......48894c24..4c8d4b38488d4c24..e8............448b4b38488d4c24..4c895424..e8
+          # 488d4b28                            lea     rcx, [rbx+28h]
+          # 4c8b11                              mov     r10, [rcx]
+          # 488d5340                            lea     rdx, [rbx+40h]
+          # 4d85d2                              test    r10, r10
+          # 7408                                jz      short loc_1B4E
+          # 488d6b40                            lea     rbp, [rbx+40h]
+          # 48036b30                            add     rbp, [rbx+30h]
+          # 803b00                              cmp     byte ptr [rbx], 0
+          # 4c8d4318                            lea     r8, [rbx+18h]
+          # 48896c2428                          mov     [rsp+68h+var_40], rbp
+          # 7415                                jz      short loc_1B71
+          # 48894c2420                          mov     [rsp+68h+var_48], rcx
+          # 4c8d4b38                            lea     r9, [rbx+38h]
+          # 488d4c2430                          lea     rcx, [rsp+68h+var_38]
+          # e88dfbffff                          call    sub_16FC; Read variable
+          # eb13                                jmp     short loc_1B84
+          # 448b4b38                            mov     r9d, [rbx+38h]
+          # 488d4c2430                          lea     rcx, [rsp+68h+var_38]
+          # 4c89542420                          mov     [rsp+68h+var_48], r10
+          # e824fdffff                          call    sub_18A8; Write variable
+        place: child_sw_smi_handlers

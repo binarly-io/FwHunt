@@ -1,0 +1,26 @@
+BRLY-2022-014:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-014
+    namespace: vulnerabilities
+    CVE number: CVE-2022-32579
+    advisory: https://binarly.io/advisories/BRLY-2022-014/index.html
+    description: The arbitrary write vulnerability leads to arbitrary code execution during PEI phase
+    volume guids:
+      - c1fbd624-27ea-40d1-aa48-94c3dc5c7e0d
+  wide_strings:
+    and:
+      - utf16le: AmiCspGlobalNvsPtrVar
+  hex_strings:
+    and:
+      - 08888c1aadd6b34695e482461b518601
+      - ff1083c41885c0....8b75..e8........68f0000000ff5004
+          # ff10                                call    [eax+EFI_PEI_READ_ONLY_VARIABLE2_PPI.GetVariable]; VariablePPI->GetVariable()
+          # 83c418                              add     esp, 18h
+          # 85c0                                test    eax, eax
+          # 7813                                js      short loc_FFD33E97
+          # 8b75f4                              mov     esi, [ebp+Data]
+          # e828060000                          call    sub_FFD344B4
+          # 68f0000000                          push    0F0h
+          # ff5004                              call    dword ptr [eax+4]

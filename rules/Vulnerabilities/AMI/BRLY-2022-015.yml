@@ -1,0 +1,27 @@
+BRLY-2022-015:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-015
+    namespace: vulnerabilities
+    CVE number: CVE-2022-34345
+    advisory: https://binarly.io/advisories/BRLY-2022-015/index.html
+    description: The arbitrary code execution in DXE driver
+    volume guids:
+      - b1da0adf-4f77-4070-a88e-bffe1c60529a
+      - a2df5376-c2ed-49c0-90ff-8b173b0fd066
+  wide_strings:
+    and:
+      - utf16le: EsaVarPtr01
+  hex_strings:
+    and:
+      - ff5048488b05........4885c0....4883c8ff....488d55..488d4d..ffd0
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 488b05521f0100                      mov     rax, cs:gEsaVarPtr01Value
+          # 4885c0                              test    rax, rax
+          # 7506                                jnz     short loc_15ED9
+          # 4883c8ff                            or      rax, 0FFFFFFFFFFFFFFFFh
+          # eb0a                                jmp     short loc_15EE3
+          # 488d5510                            lea     rdx, [rbp+arg_0]
+          # 488d4df0                            lea     rcx, [rbp+var_10]
+          # ffd0                                call    rax ; gEsaVarPtr01Value

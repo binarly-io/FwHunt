@@ -1,0 +1,18 @@
+BRLY-2022-009:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-009
+    namespace: vulnerabilities
+    CVE number: CVE-2022-36372
+    advisory: https://binarly.io/advisories/BRLY-2022-009/index.html
+    description: The arbitrary write vulnerability leads to arbitrary code execution during PEI phase
+    volume guids:
+      - 89e549b0-7cfe-449d-9ba3-10d8b2312d71
+  wide_strings:
+    and:
+      - utf16le: FPDT_Variable_NV
+  hex_strings:
+    and:
+      - 81883601adc41d4bb631d57a8ec8db6b
+      - 8b45..8b30813e53335054
