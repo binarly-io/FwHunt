@@ -9,15 +9,38 @@ BRLY-2021-010:
     description: SMM memory corruption vulnerability in combined DXE/SMM driver on Fujitsu device (SMRAM write)
     volume guids:
       - 5BE3BDF4-53CF-46A3-A6A9-73C34A6E5EE3
-  code:
-    and:
-      - pattern: 4c8d8b30ffffff4533c0488d05....0000488bce498901488d15....0000488d05....000048898338ffffff
-          # 4c8d8b30ffffff                      lea     r9, [rbx-0D0h]; Interface
-          # 4533c0                              xor     r8d, r8d; InterfaceType
-          # 488d0576190000                      lea     rax, sub_4F70
-          # 488bce                              mov     rcx, rsi; Handle
-          # 498901                              mov     [r9], rax
-          # 488d15196b0000                      lea     rdx, EFI_STORAGE_SECURITY_COMMAND_PROTOCOL_GUID_A120; Protocol
-          # 488d05ee1a0000                      lea     rax, sub_50FC
-          # 48898338ffffff                      mov     [rbx-0C8h], rax
-        place: child_sw_smi_handlers
+  variants:
+    variant1:
+      code:
+        and:
+          - pattern: 4c8d8b30ffffff4533c0488d05....0000488bce498901488d15....0000488d05....000048898338ffffff
+              # 4c8d8b30ffffff                      lea     r9, [rbx-0D0h]; Interface
+              # 4533c0                              xor     r8d, r8d; InterfaceType
+              # 488d0576190000                      lea     rax, sub_4F70
+              # 488bce                              mov     rcx, rsi; Handle
+              # 498901                              mov     [r9], rax
+              # 488d15196b0000                      lea     rdx, EFI_STORAGE_SECURITY_COMMAND_PROTOCOL_GUID_A120; Protocol
+              # 488d05ee1a0000                      lea     rax, sub_50FC
+              # 48898338ffffff                      mov     [rbx-0C8h], rax
+            place: child_sw_smi_handlers
+    variant2:
+      hex_strings:
+        and:
+          - 4c8d8b30ffffff4533c0488d05........488bce498901488d15........488d05........48898338ffffff
+              # 4c8d8b30ffffff                      lea     r9, [rbx-0D0h]; Interface
+              # 4533c0                              xor     r8d, r8d; InterfaceType
+              # 488d0576190000                      lea     rax, sub_4F70
+              # 488bce                              mov     rcx, rsi; Handle
+              # 498901                              mov     [r9], rax
+              # 488d15196b0000                      lea     rdx, EFI_STORAGE_SECURITY_COMMAND_PROTOCOL_GUID_A120; Protocol
+              # 488d05ee1a0000                      lea     rax, sub_50FC
+              # 48898338ffffff                      mov     [rbx-0C8h], rax
+          - 4883ec284c3905........75..4983392075..4d85c074..498b4010
+              # 4883ec28                            sub     rsp, 28h
+              # 4c3905757f0000                      cmp     cs:gUnknownInterface, r8
+              # 7542                                jnz     short loc_3997
+              # 49833920                            cmp     qword ptr [r9], 20h ; ' '
+              # 753c                                jnz     short loc_3997
+              # 4d85c0                              test    r8, r8
+              # 7437                                jz      short loc_3997
+              # 498b4010                            mov     rax, [r8+10h]

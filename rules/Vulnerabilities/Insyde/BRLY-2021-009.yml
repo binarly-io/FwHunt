@@ -9,19 +9,38 @@ BRLY-2021-009:
     description: SMM memory corruption vulnerability in combined DXE/SMM driver on Fujitsu device (SMRAM write)
     volume guids:
       - 3ACC966D-8E33-45C6-B4FE-62724BCD15A9
-  code:
-    and:
-      - pattern: 80be08020000000f85....000048837e..000f84....0000488d8e..0000004488be08020000e8....0000488d4e..e8....0000488d4e..e8....00004488be08020000
-          # 80be0802000000                      cmp     byte ptr [rsi+208h], 0
-          # 0f852d010000                        jnz     loc_330E
-          # 48837e1800                          cmp     qword ptr [rsi+18h], 0
-          # 0f8422010000                        jz      loc_330E
-          # 488d8e88000000                      lea     rcx, [rsi+88h]
-          # 4488be08020000                      mov     [rsi+208h], r15b
-          # e835870000                          call    sub_B934
-          # 488d4ef8                            lea     rcx, [rsi-8]
-          # e8b0340000                          call    sub_66B8
-          # 488d4ef8                            lea     rcx, [rsi-8]
-          # e877390000                          call    sub_6B88
-          # 4488be08020000                      mov     [rsi+208h], r15b
-        place: child_sw_smi_handlers
+  variants:
+    variant1:
+      code:
+        and:
+          - pattern: 80be08020000000f85....000048837e..000f84....0000488d8e..0000004488be08020000e8....0000488d4e..e8....0000488d4e..e8....00004488be08020000
+              # 80be0802000000                      cmp     byte ptr [rsi+208h], 0
+              # 0f852d010000                        jnz     loc_330E
+              # 48837e1800                          cmp     qword ptr [rsi+18h], 0
+              # 0f8422010000                        jz      loc_330E
+              # 488d8e88000000                      lea     rcx, [rsi+88h]
+              # 4488be08020000                      mov     [rsi+208h], r15b
+              # e835870000                          call    sub_B934
+              # 488d4ef8                            lea     rcx, [rsi-8]
+              # e8b0340000                          call    sub_66B8
+              # 488d4ef8                            lea     rcx, [rsi-8]
+              # e877390000                          call    sub_6B88
+              # 4488be08020000                      mov     [rsi+208h], r15b
+            place: child_sw_smi_handlers
+    variant2:
+      hex_strings:
+        and:
+          - 80be08020000000f..........48837e18000f..........488d..880000004488be08020000488d4ef848890048894008e8........488d4ef8e8........4488be08020000
+              # 80be0802000000                      cmp     byte ptr [rsi+208h], 0
+              # 0f851a010000                        jnz     loc_2494
+              # 48837e1800                          cmp     qword ptr [rsi+18h], 0
+              # 0f840f010000                        jz      loc_2494
+              # 488d8688000000                      lea     rax, [rsi+88h]
+              # 4488be08020000                      mov     [rsi+208h], r15b
+              # 488d4ef8                            lea     rcx, [rsi-8]
+              # 488900                              mov     [rax], rax
+              # 48894008                            mov     [rax+8], rax
+              # e8d53a0000                          call    sub_5E78
+              # 488d4ef8                            lea     rcx, [rsi-8]
+              # e8183d0000                          call    sub_60C4
+              # 4488be08020000                      mov     [rsi+208h], r15b

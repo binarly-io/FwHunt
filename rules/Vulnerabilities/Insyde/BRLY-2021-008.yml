@@ -9,25 +9,47 @@ BRLY-2021-008:
     description: SMM callout vulnerability in SMM driver on Fujitsu device (SMM arbitrary code execution)
     volume guids:
       - F3A3FCA1-466F-4978-AC84-2EA70FAE2BA2
-  hex_strings:
-    and:
-      - 488d15....0000c1e808488d0d....00008845..bb07000000488d45..448bc348894424..488b05....0000448d4b..ff5058
-          # 488d1555080000                      lea     rdx, VendorGuid; VendorGuid
-          # c1e808                              shr     eax, 8
-          # 488d0d4b090000                      lea     rcx, VariableName; "AsfSecureBoot"
-          # 8845f0                              mov     [rbp+var_10], al
-          # bb07000000                          mov     ebx, 7
-          # 488d45f0                            lea     rax, [rbp+var_10]
-          # 448bc3                              mov     r8d, ebx; Attributes
-          # 4889442420                          mov     [rsp+40h+Data], rax; Data
-          # 488b05a80a0000                      mov     rax, cs:gRT_1018
-          # 448d4bfa                            lea     r9d, [rbx-6]; DataSize
-          # ff5058                              call    [rax+EFI_RUNTIME_SERVICES.SetVariable]; gRT->SetVariable()
-      - 48c74424..56000000488d15........488bc8ff10
-          # 48c744245056000000                  mov     [rsp+38h+arg_10], 56h
-          # 488d1539feffff                      lea     rdx, SwSmiHandler_474
-          # 488bc8                              mov     rcx, rax
-          # ff10                                call    qword ptr [rax]
-      - 817d..4f32482474
-          # 817df44f324824                      cmp     [rbp+var_C], 2448324Fh
-          # 7405                                jz      short loc_507
+  variants:
+    variant1:
+      hex_strings:
+        and:
+          - 488d15....0000c1e808488d0d....00008845..bb07000000488d45..448bc348894424..488b05....0000448d4b..ff5058
+              # 488d1555080000                      lea     rdx, VendorGuid; VendorGuid
+              # c1e808                              shr     eax, 8
+              # 488d0d4b090000                      lea     rcx, VariableName; "AsfSecureBoot"
+              # 8845f0                              mov     [rbp+var_10], al
+              # bb07000000                          mov     ebx, 7
+              # 488d45f0                            lea     rax, [rbp+var_10]
+              # 448bc3                              mov     r8d, ebx; Attributes
+              # 4889442420                          mov     [rsp+40h+Data], rax; Data
+              # 488b05a80a0000                      mov     rax, cs:gRT_1018
+              # 448d4bfa                            lea     r9d, [rbx-6]; DataSize
+              # ff5058                              call    [rax+EFI_RUNTIME_SERVICES.SetVariable]; gRT->SetVariable()
+          - 48c74424..56000000488d15........488bc8ff10
+              # 48c744245056000000                  mov     [rsp+38h+arg_10], 56h
+              # 488d1539feffff                      lea     rdx, SwSmiHandler_474
+              # 488bc8                              mov     rcx, rax
+              # ff10                                call    qword ptr [rax]
+          - 817d..4f32482474
+              # 817df44f324824                      cmp     [rbp+var_C], 2448324Fh
+              # 7405                                jz      short loc_507
+    variant2:
+      hex_strings:
+        and:
+          - 488d0d........8845..41b9........488d45..488944....488b05........458d4106ff5058
+              # 488d0db3180000                      lea     rcx, VariableName; "AsfSecureBoot"
+              # 8845f0                              mov     [rbp+var_10], al
+              # 41b901000000                        mov     r9d, 1; DataSize
+              # 488d45f0                            lea     rax, [rbp+var_10]
+              # 4889442420                          mov     [rsp+40h+Data], rax; Data
+              # 488b051a190000                      mov     rax, cs:gRT
+              # 458d4106                            lea     r8d, [r9+6]; Attributes
+              # ff5058                              call    [rax+EFI_RUNTIME_SERVICES.SetVariable]; gRT->SetVariable()
+          - 48c74424..56000000488d15........488bc8ff10
+              # 48c744245056000000                  mov     [rsp+38h+arg_10], 56h
+              # 488d1539feffff                      lea     rdx, SwSmiHandler_474
+              # 488bc8                              mov     rcx, rax
+              # ff10                                call    qword ptr [rax]
+          - 817d..4f32482474
+              # 817df44f324824                      cmp     [rbp+var_C], 2448324Fh
+              # 7405                                jz      short loc_507

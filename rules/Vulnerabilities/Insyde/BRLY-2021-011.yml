@@ -9,15 +9,29 @@ BRLY-2021-011:
     description: SMM memory corruption vulnerability in combined DXE/SMM driver on Fujitsu device (SMRAM write)
     volume guids:
       - 74D936FA-D8BD-4633-B64D-6424BDD23D24
-  code:
-    and:
-      - pattern: 488b5310498d48204d8b4018e8....0000
-          # 488b5310                            mov     rdx, [rbx+10h]
-          # 498d4820                            lea     rcx, [r8+20h]
-          # 4d8b4018                            mov     r8, [r8+18h]
-          # e8e0130000                          call    sub_2B00
-        place: child_sw_smi_handlers
-      - pattern: 4981392010000075
-          # 49813920100000                      cmp     qword ptr [r9], 1020h
-          # 754f                                jnz     short loc_1724
-        place: child_sw_smi_handlers
+  variants:
+    variant1:
+      code:
+        and:
+          - pattern: 488b5310498d48204d8b4018e8....0000
+              # 488b5310                            mov     rdx, [rbx+10h]
+              # 498d4820                            lea     rcx, [r8+20h]
+              # 4d8b4018                            mov     r8, [r8+18h]
+              # e8e0130000                          call    sub_2B00
+            place: child_sw_smi_handlers
+          - pattern: 4981392010000075
+              # 49813920100000                      cmp     qword ptr [r9], 1020h
+              # 754f                                jnz     short loc_1724
+            place: child_sw_smi_handlers
+    variant2:
+      code:
+        and:
+          - pattern: 488b5310498d40204c8bc948894424..4533c033c9e8
+              # 488b5310                            mov     rdx, [rbx+10h]
+              # 498d4020                            lea     rax, [r8+20h]
+              # 4c8bc9                              mov     r9, rcx
+              # 4889442420                          mov     [rsp+38h+var_18], rax
+              # 4533c0                              xor     r8d, r8d
+              # 33c9                                xor     ecx, ecx
+              # e824030000                          call    sub_1DE4
+            place: child_sw_smi_handlers
