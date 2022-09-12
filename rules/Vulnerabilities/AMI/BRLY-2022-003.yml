@@ -19,13 +19,7 @@ BRLY-2022-003:
           # 813824424424                        cmp     dword ptr [rax], 24444224h
         place: sw_smi_handlers
     not-all:
-      - pattern: ba........488b4c24..e8........0fb6c085c075..48b81a00000000000080e9df180000
-          # ba000c0000                          mov     edx, 0C00h
-          # 488b4c2450                          mov     rcx, [rsp+138h+ptr]
-          # e89e1d0000                          call    CheckBuffer
-          # 0fb6c0                              movzx   eax, al
-          # 85c0                                test    eax, eax
-          # 750f                                jnz     short loc_7F4
+      - pattern: 48b81a00000000000080e9
           # 48b81a00000000000080                mov     rax, 800000000000001Ah
           # e9df180000                          jmp     loc_20D3
         place: sw_smi_handlers

@@ -16,7 +16,6 @@
         value: 24E70042-D5C5-4260-8C39-0AD3AA32E93D
         service:
           name: LocateProtocol
-
 ```
 
 JSON scheme:
