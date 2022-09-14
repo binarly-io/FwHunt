@@ -14,5 +14,20 @@ BRLY-2022-009:
       - utf16le: FPDT_Variable_NV
   hex_strings:
     and:
-      - 81883601adc41d4bb631d57a8ec8db6b
-      - 8b45..8b30813e53335054
+      - 8b..813e53335054
+          # 8b30                                mov     esi, [eax]
+          # 813e53335054                        cmp     dword ptr [esi], 54503353h
+          # OR
+          # 8b31                                mov     esi, [ecx]
+          # 813e53335054                        cmp     dword ptr [esi], 54503353h
+      - b940420f0033d2f7f150
+          # b940420f00                          mov     ecx, 0F4240h
+          # 33d2                                xor     edx, edx
+          # f7f1                                div     ecx
+          # 50                                  push    eax
+      - ff460c89461889561c897e10895e14
+          # ff460c                              inc     dword ptr [esi+0Ch]
+          # 894618                              mov     [esi+18h], eax
+          # 89561c                              mov     [esi+1Ch], edx
+          # 897e10                              mov     [esi+10h], edi
+          # 895e14                              mov     [esi+14h], ebx
