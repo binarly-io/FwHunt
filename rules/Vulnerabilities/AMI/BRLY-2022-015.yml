@@ -4,7 +4,7 @@ BRLY-2022-015:
     license: CC0-1.0
     name: BRLY-2022-015
     namespace: vulnerabilities
-    CVE number: CVE-2022-34345
+    CVE number: CVE-2022-34345, CVE-2022-2154
     advisory: https://binarly.io/advisories/BRLY-2022-015/index.html
     description: The arbitrary code execution in DXE driver
     volume guids:

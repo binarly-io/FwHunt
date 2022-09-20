@@ -4,7 +4,7 @@ BRLY-2022-009:
     license: CC0-1.0
     name: BRLY-2022-009
     namespace: vulnerabilities
-    CVE number: CVE-2022-36372
+    CVE number: CVE-2022-36372, CVE-2022-40262
     advisory: https://binarly.io/advisories/BRLY-2022-009/index.html
     description: The arbitrary write vulnerability leads to arbitrary code execution during PEI phase
     volume guids:

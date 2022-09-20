@@ -4,7 +4,7 @@ BRLY-2022-016:
     license: CC0-1.0
     name: BRLY-2022-016
     namespace: vulnerabilities
-    CVE number: CVE-2022-33209
+    CVE number: CVE-2022-33209, CVE-2022-40250
     advisory: https://binarly.io/advisories/BRLY-2022-016/index.html
     description: Stack overflow vulnerability in SMI handler
     volume guids:

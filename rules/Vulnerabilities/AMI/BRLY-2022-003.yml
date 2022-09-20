@@ -4,7 +4,7 @@ BRLY-2022-003:
     license: CC0-1.0
     name: BRLY-2022-003
     namespace: vulnerabilities
-    CVE number: CVE-2022-27493
+    CVE number: CVE-2022-27493, CVE-2022-40261
     advisory: https://binarly.io/advisories/BRLY-2022-003/index.html
     description: SMM memory corruption vulnerability in OverClockSmiHandler SMM driver
     volume guids:
