@@ -1,0 +1,22 @@
+BRLY-2022-017:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-017
+    namespace: vulnerabilities
+    CVE number: CVE-2022-36338
+    advisory: https://binarly.io/advisories/BRLY-2022-017/index.html
+    description: SMM callout vulnerability in SMM driver (SMM arbitrary code execution)
+    volume guids:
+      - 74D936FA-D8BD-4633-B64D-6424BDD23D24
+  hex_strings:
+    and:
+      - 7c6870298c61e54db8f96c7576dca83d # handler type
+  code:
+    and:
+      - pattern: 4c8d05........33d2488d0d........ff9040010000
+          # 4c8d05ef500000                      lea     r8, gProtocolInterface; Interface
+          # 33d2                                xor     edx, edx; Registration
+          # 488d0d7e470000                      lea     rcx, ProprietaryProtocol; Protocol
+          # ff9040010000                        call    [rax+EFI_BOOT_SERVICES.LocateProtocol]; gBS->LocateProtocol()
+        place: child_sw_smi_handlers

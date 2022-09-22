@@ -1,0 +1,36 @@
+BRLY-2022-023:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-023
+    namespace: vulnerabilities
+    CVE number: CVE-2022-36448
+    advisory: https://binarly.io/advisories/BRLY-2022-023/index.html
+    description: SMM memory corruption vulnerability in Software SMI handler
+    volume guids:
+      - cc1baa36-11eb-45cc-9adc-7565e273ac70
+  wide_strings:
+    and:
+      - utf16le: IhisiParamBuffer
+  hex_strings:
+    and:
+      - 3598e592425f0b4e9a8447c7810ea806
+  code:
+    and:
+      - pattern: 817b1024495342....8b4b280fb751060fb7c26683e0f86683f850....83e207488d05........ff........b8820000000fbfc848894b08
+          # 817b1024495342                      cmp     dword ptr [rbx+10h], 42534924h
+          # 752f                                jnz     short loc_36E7
+          # 8b4b28                              mov     ecx, [rbx+28h]
+          # 0fb75106                            movzx   edx, word ptr [rcx+6]
+          # 0fb7c2                              movzx   eax, dx
+          # 6683e0f8                            and     ax, 0FFF8h
+          # 6683f850                            cmp     ax, 50h ; 'P'
+          # 750f                                jnz     short loc_36DB
+          # 83e207                              and     edx, 7
+          # 488d052a4c0000                      lea     rax, gFuncsTable
+          # ff14d0                              call    (gFuncsTable - 8300h)[rax+rdx*8]
+          # eb05                                jmp     short loc_36E0
+          # b882000000                          mov     eax, 82h
+          # 0fbfc8                              movsx   ecx, ax
+          # 48894b08                            mov     [rbx+8], rcx
+        place: sw_smi_handlers

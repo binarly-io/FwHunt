@@ -1,0 +1,32 @@
+BRLY-2022-022:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-022
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35408
+    advisory: https://binarly.io/advisories/BRLY-2022-022/index.html
+    description: SMM callout vulnerability in SMM driver (SMM arbitrary code execution)
+    volume guids:
+      - 88ea1fcb-3a5d-4acf-a0b3-aacb36d4e90f
+  hex_strings:
+    and:
+      - 908d9beea6c5a240bde252558d33cca1 # EFI_SMM_USB_DISPATCH2_PROTOCOL_GUID
+      - 488b05........b91f000000ff5018488b15........488bc8488bf8ff52204883ff1f....488b15........8d4fe9ff5220
+          # 488b05bc0c0000                      mov     rax, cs:gBS
+          # b91f000000                          mov     ecx, 1Fh
+          # ff5018                              call    qword ptr [rax+18h]
+          # 488b15ad0c0000                      mov     rdx, cs:gBS
+          # 488bc8                              mov     rcx, rax
+          # 488bf8                              mov     rdi, rax
+          # ff5220                              call    qword ptr [rdx+20h]
+          # 4883ff1f                            cmp     rdi, 1Fh
+          # 750d                                jnz     short loc_1477
+          # 488b15970c0000                      mov     rdx, cs:gBS
+          # 8d4fe9                              lea     ecx, [rdi-17h]
+          # ff5220                              call    qword ptr [rdx+20h]
+      - 488b05........488d15........488b0cd9ff9098000000
+          # 488b05410c0000                      mov     rax, cs:gBS
+          # 488d15ca0b0000                      lea     rdx, ProprietaryProtocol; Protocol
+          # 488b0cd9                            mov     rcx, [rcx+rbx*8]; Handle
+          # ff9098000000                        call    [rax+EFI_BOOT_SERVICES.HandleProtocol]; gBS->HandleProtocol()

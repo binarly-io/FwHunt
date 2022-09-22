@@ -1,0 +1,39 @@
+BRLY-2022-018:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-018
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35894
+    advisory: https://binarly.io/advisories/BRLY-2022-018/index.html
+    description: SMM memory leak vulnerability in SMM driver (SMRAM read)
+    volume guids:
+      - 74D936FA-D8BD-4633-B64D-6424BDD23D24
+  hex_strings:
+    and:
+      - 7c6870298c61e54db8f96c7576dca83d # handler type
+  code:
+    and:
+      - pattern: 49813900100000....488b5310488d43204533c048894424..33c9e8
+          # 49813900100000                      cmp     qword ptr [r9], 1000h
+          # 771b                                ja      short loc_1ABD
+          # 488b5310                            mov     rdx, [rbx+10h]
+          # 488d4320                            lea     rax, [rbx+20h]
+          # 4533c0                              xor     r8d, r8d
+          # 4889442420                          mov     [rsp+38h+var_18], rax
+          # 33c9                                xor     ecx, ecx
+          # e89b030000                          call    SmfbFunc1
+        place: child_sw_smi_handlers
+      - pattern: 4183f803....4c8bc24c8bc9488b5424..e8........488bd8....4183f801....48bb0300000000000080
+          # 4183f803                            cmp     r8d, 3
+          # 7515                                jnz     short loc_1E85
+          # 4c8bc2                              mov     r8, rdx
+          # 4c8bc9                              mov     r9, rcx
+          # 488b542450                          mov     rdx, [rsp+28h+dst]
+          # e84c130000                          call    sub_31CC
+          # 488bd8                              mov     rbx, rax
+          # eb2d                                jmp     short loc_1EB2
+          # 4183f801                            cmp     r8d, 1
+          # 760c                                jbe     short loc_1E97
+          # 48bb0300000000000080                mov     rbx, 8000000000000003h
+        place: child_sw_smi_handlers

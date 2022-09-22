@@ -1,0 +1,43 @@
+BRLY-2022-024:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-024
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35895
+    advisory: https://binarly.io/advisories/BRLY-2022-024/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write)
+    volume guids:
+      - 74D936FA-D8BD-4633-B64D-6424BDD23D24
+  hex_strings:
+    and:
+      - 7c6870298c61e54db8f96c7576dca83d # handler type
+  code:
+    and:
+      - pattern: 4c8d431849813800100000....488b53104c8d4b2033c9e8
+          # 4c8d4318                            lea     r8, [rbx+18h]
+          # 49813800100000                      cmp     qword ptr [r8], 1000h
+          # 7739                                ja      short loc_1ABD
+          # 488b5310                            mov     rdx, [rbx+10h]
+          # 4c8d4b20                            lea     r9, [rbx+20h]
+          # 33c9                                xor     ecx, ecx
+          # e829040000                          call    SmfbFunc2
+        place: child_sw_smi_handlers
+      - pattern: 41b0aa498bd4498bcde8........41b055498bd4488bcbe8........41b0a0498bd4498bcde8........458a06498bd4488bcfe8
+          # 41b0aa                              mov     r8b, 0AAh; Value
+          # 498bd4                              mov     rdx, r12; Length
+          # 498bcd                              mov     rcx, r13; Buffer
+          # e8f4e7ffff                          call    SetMem
+          # 41b055                              mov     r8b, 55h ; 'U'; Value
+          # 498bd4                              mov     rdx, r12; Length
+          # 488bcb                              mov     rcx, rbx; Buffer
+          # e8e6e7ffff                          call    SetMem
+          # 41b0a0                              mov     r8b, 0A0h; Value
+          # 498bd4                              mov     rdx, r12; Length
+          # 498bcd                              mov     rcx, r13; Buffer
+          # e8d8e7ffff                          call    SetMem
+          # 458a06                              mov     r8b, [r14]; Value
+          # 498bd4                              mov     rdx, r12; Length
+          # 488bcf                              mov     rcx, rdi; Buffer
+          # e8cae7ffff                          call    SetMem
+        place: child_sw_smi_handlers

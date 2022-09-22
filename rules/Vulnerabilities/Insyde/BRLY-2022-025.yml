@@ -1,0 +1,66 @@
+BRLY-2022-025:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-025
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35896
+    advisory: https://binarly.io/advisories/BRLY-2022-025/index.html
+    description: SMM memory leak vulnerability in SMM driver (SMRAM read)
+    volume guids:
+      - 74D936FA-D8BD-4633-B64D-6424BDD23D24
+      - BDFE5FAA-2A35-44BB-B17A-8084D4E2B9E9
+  variants:
+    Protocol installation in FwBlockServiceSmm:
+      hex_strings:
+        and:
+          - 7c6870298c61e54db8f96c7576dca83d # handler type
+          - c700736d66624c8d4810c6054f........48894848488d0d........498909488d0d........48894818488d0d........48894820488d0d........48894828488d0d........48894830488d0d........48894838488d0d........48894840
+              # c700736d6662                        mov     dword ptr [rax], 'bfms'
+              # 4c8d4810                            lea     r9, [rax+10h]; Interface
+              # c6054f4f000000                      mov     cs:byte_6B30, 0
+              # 48894848                            mov     [rax+48h], rcx
+              # 488d0d08020000                      lea     rcx, Func0
+              # 498909                              mov     [r9], rcx
+              # 488d0d5e020000                      lea     rcx, SmfbFunc1
+              # 48894818                            mov     [rax+18h], rcx
+              # 488d0dbb020000                      lea     rcx, SmfbFunc2
+              # 48894820                            mov     [rax+20h], rcx
+              # 488d0d14030000                      lea     rcx, SmfbFunc3
+              # 48894828                            mov     [rax+28h], rcx
+              # 488d0d4d030000                      lea     rcx, SmfbFunc4
+              # 48894830                            mov     [rax+30h], rcx
+              # 488d0dae030000                      lea     rcx, SmfbFunc5
+              # 48894838                            mov     [rax+38h], rcx
+              # 488d0dc7030000                      lea     rcx, SmfbFunc6
+              # 48894840                            mov     [rax+40h], rcx
+          - 4183f803....4c8bc24c8bc9488b5424..e8........488bd8....4183f801....48bb0300000000000080
+              # 4183f803                            cmp     r8d, 3
+              # 7515                                jnz     short loc_1E85
+              # 4c8bc2                              mov     r8, rdx
+              # 4c8bc9                              mov     r9, rcx
+              # 488b542450                          mov     rdx, [rsp+28h+dst]
+              # e84c130000                          call    sub_31CC
+              # 488bd8                              mov     rbx, rax
+              # eb2d                                jmp     short loc_1EB2
+              # 4183f801                            cmp     r8d, 1
+              # 760c                                jbe     short loc_1E97
+              # 48bb0300000000000080                mov     rbx, 8000000000000003h
+    Protocol usage in FvbServicesRuntimeDxe:
+      hex_strings:
+        and:
+          - ab215f142cd9ab4eab1e5d24b90c3c6c # handler type
+          - 488b05........48ba03000000000000808b4b184c8b500885c9....83e901....83f901....488b5310498bca41ff5218
+              # 488b05a84e0000                      mov     rax, cs:gSmmBuffer
+              # 48ba0300000000000080                mov     rdx, 8000000000000003h
+              # 8b4b18                              mov     ecx, [rbx+18h]
+              # 4c8b5008                            mov     r10, [rax+8]
+              # 85c9                                test    ecx, ecx
+              # 7424                                jz      short loc_2EB9
+              # 83e901                              sub     ecx, 1
+              # 7412                                jz      short loc_2EAC
+              # 83f901                              cmp     ecx, 1
+              # 7533                                jnz     short loc_2ED2
+              # 488b5310                            mov     rdx, [rbx+10h]
+              # 498bca                              mov     rcx, r10
+              # 41ff5218                            call    qword ptr [r10+18h]
