@@ -3,7 +3,7 @@ IntelAlderLakeLeak:
     author: Federico Maggi (https://twitter.com/phretor)
     license: CC0-1.0
     name: IntelAlderLakeLeak
-    namespace: IntelAlderLakeLeak
+    namespace: SupplyChain
     description: BIOS image signed with leaked private keys
     url: https://github.com/phretor/intel-leak-checker/
     target: firmware
