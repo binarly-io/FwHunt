@@ -1,0 +1,34 @@
+BRLY-2022-001:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-001
+    namespace: vulnerabilities
+    CVE number: CVE-2022-32569
+    advisory: https://binarly.io/advisories/BRLY-2022-001/index.html
+    description: The arbitrary code execution in DXE driver
+    volume guids:
+      - 899407D7-99FE-43D8-9A21-79EC328CAC21
+  wide_strings:
+    and:
+      - utf16le: MeSetupStorage
+      - utf16le: MeBackupStorage
+  hex_strings:
+    and:
+      - 48c745......000048894424..4c8d4d..488b05........488d15........4533c0488d0d........ff5048488d45..4533c048894424..4c8d4d..488b05........488d15........488d0d........ff5048
+          # 48c7453811000000                    mov     [rbp+DataSize], 11h
+          # 4889442420                          mov     [rsp+80h+Data], rax; Data
+          # 4c8d4d38                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b05bf1a0100                      mov     rax, cs:gRT
+          # 488d1560c30000                      lea     rdx, gVariableGuid; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0df6fe0000                      lea     rcx, aMesetupstorage; "MeSetupStorage"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 488d45e0                            lea     rax, [rbp+MeBackupStorageValue]
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 4889442420                          mov     [rsp+80h+Data], rax; Data
+          # 4c8d4d38                            lea     r9, [rbp+DataSize]; DataSize
+          # 488b05941a0100                      mov     rax, cs:gRT
+          # 488d1535c30000                      lea     rdx, gVariableGuid; VendorGuid
+          # 488d0d0eff0000                      lea     rcx, aMebackupstorag; "MeBackupStorage"
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
