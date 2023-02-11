@@ -24,6 +24,7 @@ BRLY-2022-016:
           # ff10                                call    qword ptr [rax]
         place: child_sw_smi_handlers
   hex_strings:
+    and:
       - fbf7729cb6866f40b86ef3809a86c138 # AMI_SMM_DUMMY_PROTOCOL_REDIR_GUID
       - 488d5708488d4c24..483bca............4c8bc0488d4c24..e8
           # 488d5708                            lea     rdx, [rdi+8]; SourceBuffer

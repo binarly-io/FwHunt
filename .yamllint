@@ -1,0 +1,8 @@
+---
+extends: default
+
+rules:
+  document-start: disable
+  line-length: disable
+  comments: disable
+  comments-indentation: disable

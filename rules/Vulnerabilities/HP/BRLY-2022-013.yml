@@ -32,7 +32,6 @@ BRLY-2022-013:
           # 498bca                              mov     rcx, r10; DestinationBuffer
           # e8edf1ffff                          call    CopyMem
         place: child_sw_smi_handlers
-    and:
       - pattern: 4885c0....4c8b441f184b8d14364a8b4c1318e8
           # 4885c0                              test    rax, rax
           # 751a                                jnz     short loc_1E8C
