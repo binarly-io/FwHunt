@@ -1,0 +1,42 @@
+BlackLotusBootkit:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BlackLotusBootkit
+    namespace: threats
+    description: BlackLotus Bootkit malicious component
+    url: https://www.welivesecurity.com/2023/03/01/blacklotus-uefi-bootkit-myth-confirmed/
+    architecture: X86:LE:64
+    volume guids:
+      - AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA # applies only to module scanning
+  variants:
+    lightweight scan:
+      hex_strings:
+        or:
+          - 9900950003000200aa00a1000e000f0002001b001e001d0088009300000093001e008400120007001c001d001d0006000a009f0011000b000f000c00a500 # EFI\\Microsoft\\Boot\\winload.efi
+          - 94009c000900040003000b001a000a009d008d000a000c0003001f00830006009400c200 # VbsPolicyDisabled
+          - 1c0008000b000100dc00c3000a0008001b0016000d00af00 # BOOTMGR.XSL
+          - 1c0008000b000100dc00ca0001000a000e0012001f000300af00 # OSLOADER.XSL
+    uefi application properties:
+      guids:
+        and:
+          - name: EFI_LOADED_IMAGE_PROTOCOL_GUID
+            value: 5B1B31A1-9562-11D2-8E3F00A0C969723B
+          - name: EFI_DEVICE_PATH_PROTOCOL_GUID
+            value: 09576E91-6D3F-11D2-8E3900A0C969723B
+          - name: MICROSOFT_VENDOR_GUID
+            value: 77FA9ABD-0359-4D32-BD6028F4E78F784B
+      hex_strings:
+        and:
+          - 41b8090000d0 # ImgArchStartBootApplication (mov r8d, 0D0000009h)
+          - ff2500000000 # TrampolineHook pattern
+          - 488bd141b80e000000488bc8e8........41b806000000488d15........488bcbe8........48897b06
+              # 488bd1                              mov     rdx, rcx
+              # 41b80e000000                        mov     r8d, 0Eh
+              # 488bc8                              mov     rcx, rax
+              # e829e4ffff                          call    MemCopy
+              # 41b806000000                        mov     r8d, 6
+              # 488d154c130000                      lea     rdx, gTrampolineHookData
+              # 488bcb                              mov     rcx, rbx
+              # e814e4ffff                          call    MemCopy
+              # 48897b06                            mov     [rbx+6], rdi
