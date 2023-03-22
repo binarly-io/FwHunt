@@ -1,0 +1,30 @@
+BRLY-2022-020:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-020
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35407
+    CVSS score: 7.7 High
+    advisory: https://binarly.io/advisories/BRLY-2022-020/index.html
+    description: The arbitrary code execution in DXE driver
+    architecture: X86:LE:64
+    volume guids:
+      - FE3542FE-C1D3-4EF8-657C-8048606FF670
+  wide_strings:
+    and:
+      - utf16le: MeSetupStorage
+      - utf16le: MeBackupStorage
+  hex_strings:
+    and:
+      - 2d12325434d0d249a6de65a829eb4c74 # gVendorGuid
+      - ff5048488d......4889......4c8d......4533c0488d15........488d0d........488b05........ff5048
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+          # 488d442460                          lea     rax, [rsp+698h+MeBackupStorageValue]
+          # 4889442420                          mov     [rsp+698h+Data], rax; Data
+          # 4c8d4c2450                          lea     r9, [rsp+698h+DataSize]; DataSize
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d15ad4f0900                      lea     rdx, gVariableGuid; VendorGuid
+          # 488d0dc64c0f00                      lea     rcx, aMebackupstorag; "MeBackupStorage"
+          # 488b05477c0f00                      mov     rax, cs:gRT
+          # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()

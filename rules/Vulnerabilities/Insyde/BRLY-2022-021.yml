@@ -1,0 +1,50 @@
+BRLY-2022-021:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-021
+    namespace: vulnerabilities
+    CVE number: CVE-2022-35897
+    CVSS score: 7.6 High
+    advisory: https://binarly.io/advisories/BRLY-2022-021/index.html
+    description: The arbitrary code execution in DXE driver
+    architecture: X86:LE:64
+    volume guids:
+      - FC5C7020-1A48-4198-9BE2-EAD5ABC8CF2F
+  variants:
+    SecureBootEnforce-SecureBoot variant:
+      wide_strings:
+        and:
+          - utf16le: SecureBootEnforce
+          - utf16le: SecureBoot
+      hex_strings:
+        and:
+          - 41ff5248488d....4533c04889......4c8d....488b05........488d15........488d0d........ff5048
+            # 41ff5248                            call    qword ptr [r10+48h]
+            # 488d4538                            lea     rax, [rbp+SecureBootData]
+            # 4533c0                              xor     r8d, r8d; Attributes
+            # 4889442420                          mov     [rsp+40h+Data], rax; Data
+            # 4c8d4df0                            lea     r9, [rbp+DataSize]; DataSize
+            # 488b053df90000                      mov     rax, cs:gRT
+            # 488d15d6680000                      lea     rdx, EFI_SIMPLE_BOOT_FLAG_VARIABLE_GUID; VendorGuid
+            # 488d0d27f50000                      lea     rcx, aSecureboot; "SecureBoot"
+            # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+    SecureBoot-RestoreBootSettings variant:
+      wide_strings:
+        and:
+          - utf16le: SecureBoot
+          - utf16le: RestoreBootSettings
+      hex_strings:
+        and:
+          - ff5048408a....488d....4022....4c8d....4889......488d15........488b05........488d0d........4533c0ff5048
+            # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+            # 408a7d38                            mov     dil, [rbp+SecureBootData]
+            # 488d4530                            lea     rax, [rbp+RestoreBootSettingsData]
+            # 40227d40                            and     dil, [rbp+SecureBootEnforceData]
+            # 4c8d4df0                            lea     r9, [rbp+DataSize]; DataSize
+            # 4889442420                          mov     [rsp+40h+Data], rax; Data
+            # 488d15d8bd0000                      lea     rdx, gVendorGuid; VendorGuid
+            # 488b0509f90000                      mov     rax, cs:gRT
+            # 488d0d12f50000                      lea     rcx, aRestorebootset; "RestoreBootSettings"
+            # 4533c0                              xor     r8d, r8d; Attributes
+            # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
