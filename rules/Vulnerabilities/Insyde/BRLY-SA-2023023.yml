@@ -1,0 +1,29 @@
+BRLY-SA-2023023:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-SA-2023023
+    namespace: vulnerabilities
+    CVE number: CVE-2023-22613
+    CVSS score: 7.3 High
+    advisory: https://research.nccgroup.com/2023/04/11/stepping-insyde-system-management-mode/
+    description: Write To Attacker Controlled Address (IhisiServicesSmm)
+    architecture: X86:LE:64
+    volume guids:
+      - 87c2106e-8790-459d-bd44-2ef32a68c3f9
+  strings:
+    and:
+      - IS49Kn_ComDataCommun
+  hex_strings:
+    and:
+      - b928000000e8........8bd8488d15........488d0d........c6430800e8........4885c075..48b80900000000000080
+          # b928000000                          mov     ecx, 28h
+          # e8bc530000                          call    IhisiProtReadCpuReg32
+          # 8bd8                                mov     ebx, eax
+          # 488d15939f0000                      lea     rdx, H2_O_FLASH_MAP_REGION_FACTORY_COPY_GUID
+          # 488d0dcc9f0000                      lea     rcx, H2_O_FLASH_MAP_REGION_VAR_DEFAULT_GUID
+          # c6430800                            mov     byte ptr [rbx+8], 0
+          # e8ab6b0000                          call    FdmGetSizeById
+          # 4885c0                              test    rax, rax
+          # 750c                                jnz     short loc_230E
+          # 48b80900000000000080                mov     rax, EFI_OUT_OF_RESOURCES

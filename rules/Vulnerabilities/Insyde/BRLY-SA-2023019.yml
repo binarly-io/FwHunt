@@ -1,0 +1,42 @@
+BRLY-SA-2023019:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-SA-2023019
+    namespace: vulnerabilities
+    CVE number: CVE-2023-22612
+    CVSS score: 8.1 High
+    advisory: https://research.nccgroup.com/2023/04/11/stepping-insyde-system-management-mode/
+    description: Memory Corruption in FTBS SMI Handler (IhisiServicesSmm)
+    architecture: X86:LE:64
+    volume guids:
+      - 87c2106e-8790-459d-bd44-2ef32a68c3f9
+  strings:
+    and:
+      - S48Kn_CpSecureFlash
+  hex_strings:
+    and:
+      - b92c000000442bf6e8........8bc88b29488d59088bd5e8........84c075..b82b800000eb..4903fe4885ed74..4c8b034d85c074..488b5308483bfa74..488bcfe8
+          # b92c000000                          mov     ecx, 2Ch
+          # 442bf6                              sub     r14d, esi
+          # e8c2440000                          call    IhisiProtReadCpuReg32
+          # 8bc8                                mov     ecx, eax
+          # 8b29                                mov     ebp, [rcx]
+          # 488d5908                            lea     rbx, [rcx+8]
+          # 8bd5                                mov     edx, ebp
+          # e887450000                          call    IhisiProtBufferInCmdBuffer
+          # 84c0                                test    al, al
+          # 7507                                jnz     short loc_31F8
+          # b82b800000                          mov     eax, 802Bh
+          # eb5e                                jmp     short loc_3256
+          # 4903fe                              add     rdi, r14
+          # 4885ed                              test    rbp, rbp
+          # 7437                                jz      short loc_3237
+          # 4c8b03                              mov     r8, [rbx]; Length
+          # 4d85c0                              test    r8, r8
+          # 7417                                jz      short loc_321F
+          # 488b5308                            mov     rdx, [rbx+8]; SourceBuffer
+          # 483bfa                              cmp     rdi, rdx
+          # 740e                                jz      short loc_321F
+          # 488bcf                              mov     rcx, rdi; DestinationBuffer
+          # e8e7ddffff                          call    CopyMem

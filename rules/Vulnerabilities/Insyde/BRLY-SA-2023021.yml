@@ -1,0 +1,36 @@
+BRLY-SA-2023021:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-SA-2023021
+    namespace: vulnerabilities
+    CVE number: CVE-2023-22615
+    CVSS score: 6.4 Medium
+    advisory: https://research.nccgroup.com/2023/04/11/stepping-insyde-system-management-mode/
+    description: IHISI Subfunction Execution May Corrupt SMRAM (IhisiServicesSmm)
+    architecture: X86:LE:64
+    volume guids:
+      - 87c2106e-8790-459d-bd44-2ef32a68c3f9
+  hex_strings:
+    and:
+      - 4c8d3d........40386b1877..4438731872..ff5310483d0110000074..4885c075..83fe4175..8d4828e8........8bc8493bcf74..448d46e9498bd7e8
+          # 4c8d3ddb6d0000                      lea     r15, mApCommDataBuffer
+          # 40386b18                            cmp     [rbx+18h], bpl
+          # 7736                                ja      short loc_7901
+          # 44387318                            cmp     [rbx+18h], r14b
+          # 7230                                jb      short loc_7901
+          # ff5310                              call    qword ptr [rbx+10h]
+          # 483d01100000                        cmp     rax, 1001h
+          # 742d                                jz      short loc_7909
+          # 4885c0                              test    rax, rax
+          # 75b3                                jnz     short loc_7894
+          # 83fe41                              cmp     esi, 41h
+          # 751b                                jnz     short loc_7901
+          # 8d4828                              lea     ecx, [rax+28h]
+          # e8b2fdffff                          call    IhisiProtReadCpuReg32
+          # 8bc8                                mov     ecx, eax; DestinationBuffer
+          # 493bcf                              cmp     rcx, r15
+          # 740c                                jz      short loc_7901
+          # 448d46e9                            lea     r8d, [rsi-17h]; Length
+          # 498bd7                              mov     rdx, r15; SourceBuffer
+          # e8ff96ffff                          call    CopyMem

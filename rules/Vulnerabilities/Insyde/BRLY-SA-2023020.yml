@@ -1,0 +1,61 @@
+BRLY-SA-2023020:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-SA-2023020
+    namespace: vulnerabilities
+    CVE number: CVE-2023-22614
+    CVSS score: 7.9 High
+    advisory: https://research.nccgroup.com/2023/04/11/stepping-insyde-system-management-mode/
+    description: Insufficient Input Validation In BIOS Guard Updates (ChipsetSvcSmm)
+    architecture: X86:LE:64
+    volume guids:
+      - d359de86-0a1b-47bc-95d2-1d1f8fff0ad8
+  hex_strings:
+    and:
+      - b92c000000ff50208bd8488b05........8b4b20448b731c83c1304403f1b92d000000ff5020488b0d........4c8b3d........4881c10080fdff4c8b05........4c03f98bcb8bd0448be041ff503884c00f84........418d8e0c020000418bfe498d2c1e413bcc0f85........488b15........4885d274..488b0d........e8........488b0d........4585f674..483bcb74..4c8bc7488bd3e8........4c3bfd74..41b80c020000488bd5498bcfe8
+          # b92c000000                          mov     ecx, 2Ch
+          # ff5020                              call    qword ptr [rax+20h]
+          # 8bd8                                mov     ebx, eax
+          # 488b054b2c0000                      mov     rax, cs:gH2OIhisiProtocol
+          # 8b4b20                              mov     ecx, [rbx+20h]
+          # 448b731c                            mov     r14d, [rbx+1Ch]
+          # 83c130                              add     ecx, 30h
+          # 4403f1                              add     r14d, ecx
+          # b92d000000                          mov     ecx, 2Dh
+          # ff5020                              call    qword ptr [rax+20h]
+          # 488b0d272c0000                      mov     rcx, cs:mBiosGuardMemSize
+          # 4c8b3d302c0000                      mov     r15, cs:mBiosGuardMemAddress
+          # 4881c10080fdff                      add     rcx, 0FFFFFFFFFFFD8000h
+          # 4c8b051a2c0000                      mov     r8, cs:gH2OIhisiProtocol
+          # 4c03f9                              add     r15, rcx
+          # 8bcb                                mov     ecx, ebx
+          # 8bd0                                mov     edx, eax
+          # 448be0                              mov     r12d, eax
+          # 41ff5038                            call    qword ptr [r8+38h]
+          # 84c0                                test    al, al
+          # 0f8402010000                        jz      loc_2886
+          # 418d8e0c020000                      lea     ecx, [r14+20Ch]
+          # 418bfe                              mov     edi, r14d
+          # 498d2c1e                            lea     rbp, [r14+rbx]
+          # 413bcc                              cmp     ecx, r12d
+          # 0f85eb000000                        jnz     loc_2886
+          # 488b15de2b0000                      mov     rdx, cs:mBiosGuardMemSize; Length
+          # 4885d2                              test    rdx, rdx
+          # 740c                                jz      short loc_27B3
+          # 488b0de22b0000                      mov     rcx, cs:mBiosGuardMemAddress; Buffer
+          # e82deaffff                          call    ZeroMem
+          # 488b0dd62b0000                      mov     rcx, cs:mBiosGuardMemAddress; DestinationBuffer
+          # 4585f6                              test    r14d, r14d
+          # 7410                                jz      short loc_27CF
+          # 483bcb                              cmp     rcx, rbx
+          # 740b                                jz      short loc_27CF
+          # 4c8bc7                              mov     r8, rdi; Length
+          # 488bd3                              mov     rdx, rbx; SourceBuffer
+          # e8d1e9ffff                          call    CopyMem
+          # 4c3bfd                              cmp     r15, rbp
+          # 7411                                jz      short loc_27E5
+          # 41b80c020000                        mov     r8d, 20Ch; Length
+          # 488bd5                              mov     rdx, rbp; SourceBuffer
+          # 498bcf                              mov     rcx, r15; DestinationBuffer
+          # e8bbe9ffff                          call    CopyMem
