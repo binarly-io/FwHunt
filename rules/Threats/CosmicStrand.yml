@@ -1,0 +1,46 @@
+CosmicStrand:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: CosmicStrand
+    namespace: threats
+    description: CosmicStrand UEFI implant
+    url: https://securelist.com/cosmicstrand-uefi-firmware-rootkit/106973/
+    architecture: X86:LE:64
+    volume guids:
+      - A062CF1F-8473-4AA3-8793-600BC4FFE9A8 # CSMCORE
+  hex_strings:
+    and:
+      - 488b0c24505351525556574152415341544155415641574883ec6048b84885c0740733c0e948390175..48b8a1311b5b6295d211483b0275..48b88e3f00a0c969723b483b420875..4c8b3d........4d8b304989cd4d8b46484d89e9498b56404c89f9e8
+          # 488b0c24                            mov     rcx, [rsp+0]
+          # 50                                  push    rax
+          # 53                                  push    rbx
+          # 51                                  push    rcx
+          # 52                                  push    rdx
+          # 55                                  push    rbp
+          # 56                                  push    rsi
+          # 57                                  push    rdi
+          # 4152                                push    r10
+          # 4153                                push    r11
+          # 4154                                push    r12
+          # 4155                                push    r13
+          # 4156                                push    r14
+          # 4157                                push    r15
+          # 4883ec60                            sub     rsp, 60h
+          # 48b84885c0740733c0e9                mov     rax, 0E9C0330774C08548h
+          # 483901                              cmp     [rcx], rax
+          # 753f                                jnz     short loc_1800149F9
+          # 48b8a1311b5b6295d211                mov     rax, 11D295625B1B31A1h
+          # 483b02                              cmp     rax, [rdx]
+          # 7530                                jnz     short loc_1800149F9
+          # 48b88e3f00a0c969723b                mov     rax, 3B7269C9A0003F8Eh
+          # 483b4208                            cmp     rax, [rdx+8]
+          # 7520                                jnz     short loc_1800149F9
+          # 4c8b3d39000000                      mov     r15, cs:gST_0
+          # 4d8b30                              mov     r14, [r8]
+          # 4989cd                              mov     r13, rcx
+          # 4d8b4648                            mov     r8, [r14+48h]
+          # 4d89e9                              mov     r9, r13
+          # 498b5640                            mov     rdx, [r14+40h]
+          # 4c89f9                              mov     rcx, r15
+          # e830000000                          call    HandleProtocolHook
