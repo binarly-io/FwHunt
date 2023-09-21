@@ -1,0 +1,55 @@
+BRLY-2022-174:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-174
+    namespace: vulnerabilities
+    description: Memory contents leak / information disclosure vulnerability in DXE driver on Dell platform
+    CVSS score: 6.0 Medium
+    CVE number: CVE-2023-20597
+    vendor id: AMD-SB-4007
+    architecture: X86:LE:64
+    volume guids:
+      - 56aa1233-7407-4058-9e17-88de138ea15d
+  wide_strings:
+    and:
+      - utf16le: DownCoreStatus
+  code:
+    and:
+      - pattern: 48897c24..55488bec4883ec..bf........488d15........8bcfe8........488d4d..c745..........e8........85c0c645....488d45..48c745..........48894424..4c8d4d..488b05........488d15........0f9445..488d0d........4533c0ff50488a4d..384d..75..4885c074..4c8b4d..488d45..48894424..488d15........488b05........488d0d........41b8........ff5058
+          # 48897c2420                          mov     [rsp+20h], rdi
+          # 55                                  push    rbp
+          # 488bec                              mov     rbp, rsp
+          # 4883ec40                            sub     rsp, 40h
+          # bf00040000                          mov     edi, 400h
+          # 488d1557900000                      lea     rdx, aCcxcheckdownco; "  CcxCheckDownCoreStatus Entry\n"
+          # 8bcf                                mov     ecx, edi
+          # e88c240000                          call    sub_4C6C
+          # 488d4df0                            lea     rcx, [rbp-10h]
+          # c745f036a00000                      mov     dword ptr [rbp-10h], 0A036h
+          # e884310000                          call    sub_5974
+          # 85c0                                test    eax, eax
+          # c6451000                            mov     byte ptr [rbp+10h], 0
+          # 488d4510                            lea     rax, [rbp+10h]
+          # 48c7452001000000                    mov     qword ptr [rbp+20h], 1
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d4d20                            lea     r9, [rbp+20h]; DataSize
+          # 488b0586a30000                      mov     rax, cs:gRT
+          # 488d15f77f0000                      lea     rdx, VendorGuid; VendorGuid
+          # 0f944518                            setz    byte ptr [rbp+18h]
+          # 488d0d2c900000                      lea     rcx, VariableName; "DownCoreStatus"
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 8a4d10                              mov     cl, [rbp+10h]
+          # 384d18                              cmp     [rbp+18h], cl
+          # 7505                                jnz     short loc_2837
+          # 4885c0                              test    rax, rax
+          # 745a                                jz      short loc_2891
+          # 4c8b4d20                            mov     r9, [rbp+20h]; DataSize
+          # 488d4518                            lea     rax, [rbp+18h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d15c57f0000                      lea     rdx, VendorGuid; VendorGuid
+          # 488b0546a30000                      mov     rax, cs:gRT
+          # 488d0df78f0000                      lea     rcx, VariableName; "DownCoreStatus"
+          # 41b807000000                        mov     r8d, 7; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()

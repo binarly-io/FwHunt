@@ -1,0 +1,144 @@
+BRLY-2022-126:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-126
+    namespace: vulnerabilities
+    description: Memory contents leak / information disclosure vulnerability in DXE driver on Dell platform
+    CVSS score: 4.9 Medium
+    CVE number: CVE-2023-34469
+    vendor id: AMI-SA-2023007
+    architecture: X86:LE:64
+    volume guids:
+      - 899407d7-99fe-43d8-9a21-79ec328cac21
+  wide_strings:
+    and:
+      - utf16le: AmiWrapperSetup
+      - utf16le: AmiWrapperColdReset
+  code:
+    and:
+      - pattern: 48895c24..55488dac24........4881ec........488d85........48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d85........48894424..488d15........488b05........488d0d........bb........448bc3ff5058488d85........48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d85........48894424..488d15........488b05........488d0d........448bc3ff5058488d4424..48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d4424..48894424..488d15........488b05........488d0d........448bc3ff5058488d45..48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d45..48894424..488d15........488b05........488d0d........448bc3ff5058488d85........48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d85........48894424..488b05........488d15........448bc3488d0d........ff5058488d85........48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d85........48894424..488d15........488b05........488d0d........448bc3ff5058488d85........48c785................48894424..4c8d8d........488b05........488d15........4533c0488d0d........ff50484c8b8d........488d85........48894424..488d15........488b05........488d0d........448bc3ff5058
+          # 48895c2420                          mov     [rsp+20h], rbx
+          # 55                                  push    rbp
+          # 488dac2470e3ffff                    lea     rbp, [rsp-1C90h]
+          # 4881ec901d0000                      sub     rsp, 1D90h
+          # 488d85800e0000                      lea     rax, [rbp+0E80h]
+          # 48c785b01c0000100e0000              mov     qword ptr [rbp+1CB0h], 0E10h
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b050a7b0100                      mov     rax, cs:gRT_0
+          # 488d15db2f0100                      lea     rdx, EFI_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0d69510100                      lea     rcx, aSetup; "Setup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d85800e0000                      lea     rax, [rbp+0E80h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d15b42f0100                      lea     rdx, EFI_SETUP_VARIABLE_GUID; VendorGuid
+          # 488b05d57a0100                      mov     rax, cs:gRT_0
+          # 488d0d26610100                      lea     rcx, aColdreset; "ColdReset"
+          # bb02000000                          mov     ebx, 2
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d8500030000                      lea     rax, [rbp+300h]
+          # 48c785b01c0000fa030000              mov     qword ptr [rbp+1CB0h], 3FAh
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b059e7a0100                      mov     rax, cs:gRT_0
+          # 488d153f320100                      lea     rdx, SA_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0d0d530100                      lea     rcx, aSasetup; "SaSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d8500030000                      lea     rax, [rbp+300h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d1518320100                      lea     rdx, SA_SETUP_VARIABLE_GUID; VendorGuid
+          # 488b05697a0100                      mov     rax, cs:gRT_0
+          # 488d0dd2600100                      lea     rcx, aSacoldreset; "SaColdReset"
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d442430                          lea     rax, [rsp+30h]
+          # 48c785b01c000029010000              mov     qword ptr [rbp+1CB0h], 129h
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b05397a0100                      mov     rax, cs:gRT_0
+          # 488d157a310100                      lea     rdx, ME_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0db0600100                      lea     rcx, aMesetup; "MeSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d442430                          lea     rax, [rsp+30h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d1555310100                      lea     rdx, ME_SETUP_VARIABLE_GUID; VendorGuid
+          # 488b05067a0100                      mov     rax, cs:gRT_0
+          # 488d0d97600100                      lea     rcx, aMecoldreset; "MeColdReset"
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d4560                            lea     rax, [rbp+60h]
+          # 48c785b01c00009b020000              mov     qword ptr [rbp+1CB0h], 29Bh
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b05d7790100                      mov     rax, cs:gRT_0
+          # 488d15a82c0100                      lea     rdx, CPU_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0d8e5d0100                      lea     rcx, aCpusetup; "CpuSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d4560                            lea     rax, [rbp+60h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d15842c0100                      lea     rdx, CPU_SETUP_VARIABLE_GUID; VendorGuid
+          # 488b05a5790100                      mov     rax, cs:gRT_0
+          # 488d0d4e600100                      lea     rcx, aCpucoldreset; "CpuColdReset"
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d8500070000                      lea     rax, [rbp+700h]
+          # 48c785b01c00007f070000              mov     qword ptr [rbp+1CB0h], 77Fh
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b0573790100                      mov     rax, cs:gRT_0
+          # 488d15c4300100                      lea     rdx, PCH_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0daa580100                      lea     rcx, aPchsetup; "PchSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d8500070000                      lea     rax, [rbp+700h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488b0545790100                      mov     rax, cs:gRT_0
+          # 488d1596300100                      lea     rdx, PCH_SETUP_VARIABLE_GUID; VendorGuid
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # 488d0d04600100                      lea     rcx, aPchcoldreset; "PchColdReset"
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d85a81c0000                      lea     rax, [rbp+1CA8h]
+          # 48c785b01c000007000000              mov     qword ptr [rbp+1CB0h], 7
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b050c790100                      mov     rax, cs:gRT_0
+          # 488d152d2b0100                      lea     rdx, SI_SETUP_VARIABLE_GUID; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0d9b5e0100                      lea     rcx, aSisetup; "SiSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d85a81c0000                      lea     rax, [rbp+1CA8h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d15062b0100                      lea     rdx, SI_SETUP_VARIABLE_GUID; VendorGuid
+          # 488b05d7780100                      mov     rax, cs:gRT_0
+          # 488d0dc05f0100                      lea     rcx, aSicoldreset; "SiColdReset"
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
+          # 488d85a01c0000                      lea     rax, [rbp+1CA0h]
+          # 48c785b01c000004000000              mov     qword ptr [rbp+1CB0h], 4
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d8db01c0000                      lea     r9, [rbp+1CB0h]; DataSize
+          # 488b05a5780100                      mov     rax, cs:gRT_0
+          # 488d1526310100                      lea     rdx, stru_22D78; VendorGuid
+          # 4533c0                              xor     r8d, r8d; Attributes
+          # 488d0d9c5f0100                      lea     rcx, aAmiwrappersetu; "AmiWrapperSetup"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4c8b8db01c0000                      mov     r9, [rbp+1CB0h]; DataSize
+          # 488d85a01c0000                      lea     rax, [rbp+1CA0h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d15ff300100                      lea     rdx, stru_22D78; VendorGuid
+          # 488b0570780100                      mov     rax, cs:gRT_0
+          # 488d0d915f0100                      lea     rcx, aAmiwrappercold; "AmiWrapperColdReset"
+          # 448bc3                              mov     r8d, ebx; Attributes
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()

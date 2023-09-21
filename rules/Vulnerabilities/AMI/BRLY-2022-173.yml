@@ -1,0 +1,51 @@
+BRLY-2022-173:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-173
+    namespace: vulnerabilities
+    description: Memory contents leak / information disclosure vulnerability in DXE driver on Dell platform
+    CVSS score: 6.0 Medium
+    CVE number: CVE-2023-34470
+    vendor id: AMI-SA-2023007
+    architecture: X86:LE:64
+    volume guids:
+      - 0a1c30d2-7821-4fd2-b3c1-d24fa4c84b6a
+  wide_strings:
+    and:
+      - utf16le: AmiHardwareSignatureSetupUpdateCountVar
+  code:
+    and:
+      - pattern: 488b05........488d15........4533c948895d..4533c0488d4d..ff9080000000488d45..48c745..........48894424..4c8d4d..488b05........4c8d45..488d55..488d0d........ff50484885c079..41b8........448945..eb..8b5d..448b45..4c8b4d..488d45..48894424..488d55..488b05........488d0d........ffc3895d..ff5058
+          # 488b05061a0000                      mov     rax, cs:gBS_0
+          # 488d1517140000                      lea     rdx, AMI_SETUP_NVRAM_UPDATE_GUID; Protocol
+          # 4533c9                              xor     r9d, r9d; Interface
+          # 48895d28                            mov     [rbp+28h], rbx
+          # 4533c0                              xor     r8d, r8d; InterfaceType
+          # 488d4d28                            lea     rcx, [rbp+28h]; Handle
+          # ff9080000000                        call    qword ptr [rax+80h]; gBS->InstallProtocolInterface()
+          # 488d4510                            lea     rax, [rbp+10h]
+          # 48c745e004000000                    mov     qword ptr [rbp-20h], 4
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 4c8d4de0                            lea     r9, [rbp-20h]; DataSize
+          # 488b05d7190000                      mov     rax, cs:gRT
+          # 4c8d4520                            lea     r8, [rbp+20h]; Attributes
+          # 488d55e8                            lea     rdx, [rbp-18h]; VendorGuid
+          # 488d0d70140000                      lea     rcx, VariableName; "AmiHardwareSignatureSetupUpdateCountVar"
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 4885c0                              test    rax, rax
+          # 790c                                jns     short loc_894
+          # 41b807000000                        mov     r8d, 7
+          # 44894520                            mov     [rbp+20h], r8d
+          # eb07                                jmp     short loc_89B
+          # 8b5d10                              mov     ebx, [rbp+10h]
+          # 448b4520                            mov     r8d, [rbp+20h]; Attributes
+          # 4c8b4de0                            mov     r9, [rbp-20h]; DataSize
+          # 488d4510                            lea     rax, [rbp+10h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488d55e8                            lea     rdx, [rbp-18h]; VendorGuid
+          # 488b0595190000                      mov     rax, cs:gRT
+          # 488d0d36140000                      lea     rcx, VariableName; "AmiHardwareSignatureSetupUpdateCountVar"
+          # ffc3                                inc     ebx
+          # 895d10                              mov     [rbp+10h], ebx
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()

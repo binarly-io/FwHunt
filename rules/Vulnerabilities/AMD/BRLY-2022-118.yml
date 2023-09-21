@@ -1,0 +1,66 @@
+BRLY-2022-118:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2022-118
+    namespace: vulnerabilities
+    description: Memory contents leak / information disclosure vulnerability in DXE driver on Dell platform
+    CVSS score: 4.9 Medium
+    CVE number: CVE-2023-20594
+    vendor id: AMD-SB-4007
+    architecture: X86:LE:64
+    volume guids:
+      - a8dafb9b-3529-4e87-8584-ecdb6a5b78b6
+  wide_strings:
+    and:
+      - utf16le: AmdAcpiVar
+  code:
+    and:
+      - pattern: 4c8bdc49895b18574883ec..498363d80033c0408afa66894424..b8........488bd966894424..b8........4d8d4b0866894424..498d43d84d8d4310498943c8488b05........498d53e8488d0d........c74424..........c64424....c64424....c64424....c64424....c64424....c64424....c64424....c64424....49c743080a000000c74424..........ff504848895c24..b8........4084ff74..66894424..eb..66014424..4c8b4c24..448b4424..488d4424..48894424..488b05........488d5424..488d0d........ff5058
+          # 4c8bdc                              mov     r11, rsp
+          # 49895b18                            mov     [r11+18h], rbx
+          # 57                                  push    rdi
+          # 4883ec50                            sub     rsp, 50h
+          # 498363d800                          and     qword ptr [r11-28h], 0
+          # 33c0                                xor     eax, eax
+          # 408afa                              mov     dil, dl
+          # 6689442438                          mov     [rsp+38h], ax
+          # b836ed0000                          mov     eax, 0ED36h
+          # 488bd9                              mov     rbx, rcx
+          # 6689442444                          mov     [rsp+44h], ax
+          # b8d0490000                          mov     eax, 49D0h
+          # 4d8d4b08                            lea     r9, [r11+8]; DataSize
+          # 6689442446                          mov     [rsp+46h], ax
+          # 498d43d8                            lea     rax, [r11-28h]
+          # 4d8d4310                            lea     r8, [r11+10h]; Attributes
+          # 498943c8                            mov     [r11-38h], rax
+          # 488b051f850000                      mov     rax, cs:gRT
+          # 498d53e8                            lea     rdx, [r11-18h]; VendorGuid
+          # 488d0dd4a1ffff                      lea     rcx, VariableName; "AmdAcpiVar"
+          # c7442440cd1e9479                    mov     dword ptr [rsp+40h], 79941ECDh
+          # c644244881                          mov     byte ptr [rsp+48h], 81h
+          # c644244924                          mov     byte ptr [rsp+49h], 24h ; '$'
+          # c644244ae4                          mov     byte ptr [rsp+4Ah], 0E4h
+          # c644244bc3                          mov     byte ptr [rsp+4Bh], 0C3h
+          # c644244c1a                          mov     byte ptr [rsp+4Ch], 1Ah
+          # c644244dc7                          mov     byte ptr [rsp+4Dh], 0C7h
+          # c644244e5c                          mov     byte ptr [rsp+4Eh], 5Ch ; '\'
+          # c644244fd4                          mov     byte ptr [rsp+4Fh], 0D4h
+          # 49c743080a000000                    mov     qword ptr [r11+8], 0Ah
+          # c744246806000000                    mov     dword ptr [rsp+68h], 6
+          # ff5048                              call    qword ptr [rax+48h]; gRT->GetVariable()
+          # 48895c2430                          mov     [rsp+30h], rbx
+          # b801000000                          mov     eax, 1
+          # 4084ff                              test    dil, dil
+          # 7407                                jz      short loc_6F65
+          # 6689442438                          mov     [rsp+38h], ax
+          # eb05                                jmp     short loc_6F6A
+          # 6601442438                          add     [rsp+38h], ax
+          # 4c8b4c2460                          mov     r9, [rsp+60h]; DataSize
+          # 448b442468                          mov     r8d, [rsp+68h]; Attributes
+          # 488d442430                          lea     rax, [rsp+30h]
+          # 4889442420                          mov     [rsp+20h], rax; Data
+          # 488b059b840000                      mov     rax, cs:gRT
+          # 488d542440                          lea     rdx, [rsp+40h]; VendorGuid
+          # 488d0d4fa1ffff                      lea     rcx, VariableName; "AmdAcpiVar"
+          # ff5058                              call    qword ptr [rax+58h]; gRT->SetVariable()
