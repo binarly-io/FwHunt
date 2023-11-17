@@ -1,0 +1,11 @@
+OemUnlockKeyLeak:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: OemUnlockKeyLeak
+    namespace: SupplyChain
+    description: Part of IWFI firmware (SMIP, BPM, ISH) verification mechanism is configured with bxt_dbg_priv_key.pem key which private part was leaked in multiple sources. Firmware image verification is not trusted on this device. In addition, this key is used to configure OEM Unlock Tokens, which allow to enable platform debugging features (Orange Unlock) for the mentioned part of IFWI firmware.
+    target: firmware
+  hex_strings:
+    and:
+      - 2dc5d6d617fa0aa04f039b58391e4647b826889f0ea240cf2297198773b30fb5902c410f45f6d057b7fc8d7d8115a6b76d0f47ddb9b4ee223e403213822863864a5d5d9ad9a65230998c1db4483b86089b2c6bdcab664f6fc8b09c5c25e3005fcb3526585a76ad852dbe83c511b0d3248a4c22d90f6911b98eaea760e8ab1c1963da778d7f845d6bb793f30c3a414d363b59ed9223a36e8d6a8644f06df03a21f5d405c7b14735bc57f230b05e249ff4867b2c2afa84fd8de3e77209e78f7339b372d23c605a52c8633f44ce9e60d8bafda38aae181964002428251b59e3213f096da01988e805cc46100c10f2501260f7daacf5cdfaf1f5cb3f16d0c5b84b9e
