@@ -1,0 +1,296 @@
+BRLY-2023-005:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2023-005
+    namespace: vulnerabilities
+    advisory: https://binarly.io/advisories/BRLY-2023-005/index.html
+    description: Arbitrary calls to SetVariable with unsanitized arguments in SMI handler
+    CVSS score: 8.2 High
+    architecture: X86:LE:64
+    volume guids:
+      - 87C2106E-8790-459D-BD44-2EF32A68C3F9
+  variants:
+    variant1: # Lenovo - J1CN38WW
+      code:
+        - pattern: 418d4c24..e8........418d4c24..8be8e8........418d5424..8bd88bcde8........84c00f84........418d5424..8bcbe8........84c00f84........4c8d75..498bce4c8d7b..e8........84c00f84........8b73..443963..74..8bd6498bcfe8........84c00f84........498bc6498bcc6645392674..488d40..48ffc16644392075..488d45..488d0448483bc376..8b43..488d4b..4803c8483be972..418bd4498bcc4885f674..420fb6043948ffc103d0483bce72..8a431e02c274..b8........eb..448b43..4585c075..41b8........448943..488b05........bb........4885c074..4c8bce4c897c24..488bd5498bceff50
+          # 418d4c242c                          lea     ecx, [r12+2Ch]
+          # e8e84f0000                          call    ReadFromRegBuffer
+          # 418d4c242d                          lea     ecx, [r12+2Dh]
+          # 8be8                                mov     ebp, eax
+          # e8dc4f0000                          call    ReadFromRegBuffer
+          # 418d542410                          lea     edx, [r12+10h]
+          # 8bd8                                mov     ebx, eax
+          # 8bcd                                mov     ecx, ebp
+          # e8a2500000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84e8000000                        jz      loc_3106
+          # 418d542420                          lea     edx, [r12+20h]
+          # 8bcb                                mov     ecx, ebx
+          # e88e500000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84d4000000                        jz      loc_3106
+          # 4c8d7510                            lea     r14, [rbp+10h]
+          # 498bce                              mov     rcx, r14
+          # 4c8d7b20                            lea     r15, [rbx+20h]
+          # e8eefdffff                          call    sub_2E30
+          # 84c0                                test    al, al
+          # 0f84bc000000                        jz      loc_3106
+          # 8b7310                              mov     esi, [rbx+10h]
+          # 44396310                            cmp     [rbx+10h], r12d
+          # 7412                                jz      short loc_3065
+          # 8bd6                                mov     edx, esi
+          # 498bcf                              mov     rcx, r15
+          # e85b500000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84a1000000                        jz      loc_3106
+          # 498bc6                              mov     rax, r14
+          # 498bcc                              mov     rcx, r12
+          # 66453926                            cmp     [r14], r12w
+          # 740d                                jz      short loc_307E
+          # 488d4002                            lea     rax, [rax+2]
+          # 48ffc1                              inc     rcx
+          # 66443920                            cmp     [rax], r12w
+          # 75f3                                jnz     short loc_3071
+          # 488d4512                            lea     rax, [rbp+12h]
+          # 488d0448                            lea     rax, [rax+rcx*2]
+          # 483bc3                              cmp     rax, rbx
+          # 760f                                jbe     short loc_309A
+          # 8b4310                              mov     eax, [rbx+10h]
+          # 488d4b20                            lea     rcx, [rbx+20h]
+          # 4803c8                              add     rcx, rax
+          # 483be9                              cmp     rbp, rcx
+          # 726c                                jb      short loc_3106
+          # 418bd4                              mov     edx, r12d
+          # 498bcc                              mov     rcx, r12
+          # 4885f6                              test    rsi, rsi
+          # 740f                                jz      short loc_30B4
+          # 420fb60439                          movzx   eax, byte ptr [rcx+r15]
+          # 48ffc1                              inc     rcx
+          # 03d0                                add     edx, eax
+          # 483bce                              cmp     rcx, rsi
+          # 72f1                                jb      short loc_30A5
+          # 8a431e                              mov     al, [rbx+1Eh]
+          # 02c2                                add     al, dl
+          # 7407                                jz      short loc_30C2
+          # b812800000                          mov     eax, 8012h
+          # eb49                                jmp     short loc_310B
+          # 448b4314                            mov     r8d, [rbx+14h]
+          # 4585c0                              test    r8d, r8d
+          # 750a                                jnz     short loc_30D5
+          # 41b807000000                        mov     r8d, 7
+          # 44894314                            mov     [rbx+14h], r8d
+          # 488b0594d90000                      mov     rax, cs:gEfiSmmVariableProtocol
+          # bb14800000                          mov     ebx, 8014h
+          # 4885c0                              test    rax, rax
+          # 741b                                jz      short loc_3101
+          # 4c8bce                              mov     r9, rsi
+          # 4c897c2420                          mov     [rsp+48h+var_28], r15
+          # 488bd5                              mov     rdx, rbp
+          # 498bce                              mov     rcx, r14
+          # ff5010                              call    qword ptr [rax+10h]
+    variant2: # Lenovo - K1CN44WW
+      code:
+        - pattern: 418d4c24..e8........418d4c24..8be8e8........418d5424..8bd88bcde8........84c00f84........418d5424..8bcbe8........84c00f84........4c8d75..498bce4c8d7b..e8........84c00f84........8b73..443963..74..8bd6498bcfe8........84c00f84........498bc6498bcc6645392674..488d40..48ffc16644392075..488d45..488d0448483bc376..8b43..488d4b..4803c8483be972..418bcc498bd44885f674..420fb6043a48ffc203c8483bd672..024b1e74..b8........eb..448b43..4585c075..41b8........448943..488b05........bb........4885c074..4c8bce4c897c24..488bd5498bceff50
+          # 418d4c242c                          lea     ecx, [r12+2Ch]
+          # e8584f0000                          call    ReadFromRegBuffer
+          # 418d4c242d                          lea     ecx, [r12+2Dh]
+          # 8be8                                mov     ebp, eax
+          # e84c4f0000                          call    ReadFromRegBuffer
+          # 418d542410                          lea     edx, [r12+10h]
+          # 8bd8                                mov     ebx, eax
+          # 8bcd                                mov     ecx, ebp
+          # e812500000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84e6000000                        jz      loc_311C
+          # 418d542420                          lea     edx, [r12+20h]
+          # 8bcb                                mov     ecx, ebx
+          # e8fe4f0000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84d2000000                        jz      loc_311C
+          # 4c8d7510                            lea     r14, [rbp+10h]
+          # 498bce                              mov     rcx, r14
+          # 4c8d7b20                            lea     r15, [rbx+20h]
+          # e8eefdffff                          call    sub_2E48
+          # 84c0                                test    al, al
+          # 0f84ba000000                        jz      loc_311C
+          # 8b7310                              mov     esi, [rbx+10h]
+          # 44396310                            cmp     [rbx+10h], r12d
+          # 7412                                jz      short loc_307D
+          # 8bd6                                mov     edx, esi
+          # 498bcf                              mov     rcx, r15
+          # e8cb4f0000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f849f000000                        jz      loc_311C
+          # 498bc6                              mov     rax, r14
+          # 498bcc                              mov     rcx, r12
+          # 66453926                            cmp     [r14], r12w
+          # 740d                                jz      short loc_3096
+          # 488d4002                            lea     rax, [rax+2]
+          # 48ffc1                              inc     rcx
+          # 66443920                            cmp     [rax], r12w
+          # 75f3                                jnz     short loc_3089
+          # 488d4512                            lea     rax, [rbp+12h]
+          # 488d0448                            lea     rax, [rax+rcx*2]
+          # 483bc3                              cmp     rax, rbx
+          # 760f                                jbe     short loc_30B2
+          # 8b4310                              mov     eax, [rbx+10h]
+          # 488d4b20                            lea     rcx, [rbx+20h]
+          # 4803c8                              add     rcx, rax
+          # 483be9                              cmp     rbp, rcx
+          # 726a                                jb      short loc_311C
+          # 418bcc                              mov     ecx, r12d
+          # 498bd4                              mov     rdx, r12
+          # 4885f6                              test    rsi, rsi
+          # 740f                                jz      short loc_30CC
+          # 420fb6043a                          movzx   eax, byte ptr [rdx+r15]
+          # 48ffc2                              inc     rdx
+          # 03c8                                add     ecx, eax
+          # 483bd6                              cmp     rdx, rsi
+          # 72f1                                jb      short loc_30BD
+          # 024b1e                              add     cl, [rbx+1Eh]
+          # 7407                                jz      short loc_30D8
+          # b812800000                          mov     eax, 8012h
+          # eb49                                jmp     short loc_3121
+          # 448b4314                            mov     r8d, [rbx+14h]
+          # 4585c0                              test    r8d, r8d
+          # 750a                                jnz     short loc_30EB
+          # 41b807000000                        mov     r8d, 7
+          # 44894314                            mov     [rbx+14h], r8d
+          # 488b057ec50000                      mov     rax, cs:gEfiSmmVariableProtocol
+          # bb14800000                          mov     ebx, 8014h
+          # 4885c0                              test    rax, rax
+          # 741b                                jz      short loc_3117
+          # 4c8bce                              mov     r9, rsi
+          # 4c897c2420                          mov     [rsp+48h+var_28], r15
+          # 488bd5                              mov     rdx, rbp
+          # 498bce                              mov     rcx, r14
+          # ff5010                              call    qword ptr [rax+10h]
+    variant3: # HP - F.12 Rev.A
+      code:
+        - pattern: 418d4c24..e8........418d4c24..8bf0e8........418d5424..8bd88bcee8........84c00f84........418d5424..8bcbe8........84c00f84........4c8d76..498bce4c8d7b..e8........84c00f84........443963..74..8b53..498bcfe8........84c00f84........498bc6498bcc6645392674..488d40..48ffc16644392075..488d46..488d0448483bc376..8b43..488d4b..4803c8483bf172..418bd4498bcc443963..76..448b43..420fb6043948ffc103d0493bc872..8a431e02c274..b8........eb..443963..75..c743..........488b05........bd........4885c074..448b4b..488bd6448b43..498bce4c897c24..ff50
+          # 418d4c242c                          lea     ecx, [r12+2Ch]
+          # e850400000                          call    ReadFromRegBuffer
+          # 418d4c242d                          lea     ecx, [r12+2Dh]
+          # 8bf0                                mov     esi, eax
+          # e844400000                          call    ReadFromRegBuffer
+          # 418d542410                          lea     edx, [r12+10h]
+          # 8bd8                                mov     ebx, eax
+          # 8bce                                mov     ecx, esi
+          # e80e410000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84ea000000                        jz      loc_355C
+          # 418d542420                          lea     edx, [r12+20h]
+          # 8bcb                                mov     ecx, ebx
+          # e8fa400000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84d6000000                        jz      loc_355C
+          # 4c8d7610                            lea     r14, [rsi+10h]
+          # 498bce                              mov     rcx, r14
+          # 4c8d7b20                            lea     r15, [rbx+20h]
+          # e8eefdffff                          call    sub_3284
+          # 84c0                                test    al, al
+          # 0f84be000000                        jz      loc_355C
+          # 44396310                            cmp     [rbx+10h], r12d
+          # 7413                                jz      short loc_34B7
+          # 8b5310                              mov     edx, [rbx+10h]
+          # 498bcf                              mov     rcx, r15
+          # e8c9400000                          call    PtrIsInsideSpecialBuffer
+          # 84c0                                test    al, al
+          # 0f84a5000000                        jz      loc_355C
+          # 498bc6                              mov     rax, r14
+          # 498bcc                              mov     rcx, r12
+          # 66453926                            cmp     [r14], r12w
+          # 740d                                jz      short loc_34D0
+          # 488d4002                            lea     rax, [rax+2]
+          # 48ffc1                              inc     rcx
+          # 66443920                            cmp     [rax], r12w
+          # 75f3                                jnz     short loc_34C3
+          # 488d4612                            lea     rax, [rsi+12h]
+          # 488d0448                            lea     rax, [rax+rcx*2]
+          # 483bc3                              cmp     rax, rbx
+          # 760f                                jbe     short loc_34EC
+          # 8b4310                              mov     eax, [rbx+10h]
+          # 488d4b20                            lea     rcx, [rbx+20h]
+          # 4803c8                              add     rcx, rax
+          # 483bf1                              cmp     rsi, rcx
+          # 7270                                jb      short loc_355C
+          # 418bd4                              mov     edx, r12d
+          # 498bcc                              mov     rcx, r12
+          # 44396310                            cmp     [rbx+10h], r12d
+          # 7613                                jbe     short loc_350B
+          # 448b4310                            mov     r8d, [rbx+10h]
+          # 420fb60439                          movzx   eax, byte ptr [rcx+r15]
+          # 48ffc1                              inc     rcx
+          # 03d0                                add     edx, eax
+          # 493bc8                              cmp     rcx, r8
+          # 72f1                                jb      short loc_34FC
+          # 8a431e                              mov     al, [rbx+1Eh]
+          # 02c2                                add     al, dl
+          # 7407                                jz      short loc_3519
+          # b812800000                          mov     eax, 8012h
+          # eb48                                jmp     short loc_3561
+          # 44396314                            cmp     [rbx+14h], r12d
+          # 7507                                jnz     short loc_3526
+          # c7431407000000                      mov     dword ptr [rbx+14h], 7
+          # 488b052b4a0100                      mov     rax, cs:gEfiSmmVariableProtocol
+          # bd14800000                          mov     ebp, 8014h
+          # 4885c0                              test    rax, rax
+          # 7420                                jz      short loc_3557
+          # 448b4b10                            mov     r9d, [rbx+10h]
+          # 488bd6                              mov     rdx, rsi
+          # 448b4314                            mov     r8d, [rbx+14h]
+          # 498bce                              mov     rcx, r14
+          # 4c897c2420                          mov     [rsp+48h+var_28], r15
+          # ff5010                              call    qword ptr [rax+10h]
+    variant4: # Fujitsu - LIFEBOOK U757 1.21
+      code:
+        - pattern: b9........e8........b9........448bf0e8........8bd8498d6e..488bcd488d73..e8........488bd0488bcde8........84c075..8b53..488bcee8........84c075..448b43..33d233c94585c074..0fb6043148ffc103d0493bc872..8a431e02c274..b8........eb..837b....75..c743..........488b05........bf........4885c074..4d8bc848897424..448b43..498bd6488bcdff50
+          # b92c000000                          mov     ecx, 2Ch ; ','
+          # e88bf6ffff                          call    ReadFromRegBuffer
+          # b92d000000                          mov     ecx, 2Dh ; '-'
+          # 448bf0                              mov     r14d, eax
+          # e87ef6ffff                          call    ReadFromRegBuffer
+          # 8bd8                                mov     ebx, eax
+          # 498d6e10                            lea     rbp, [r14+10h]
+          # 488bcd                              mov     rcx, rbp; String
+          # 488d7320                            lea     rsi, [rbx+20h]
+          # e8c0400000                          call    StrLen
+          # 488bd0                              mov     rdx, rax
+          # 488bcd                              mov     rcx, rbp
+          # e82df4ffff                          call    sub_584
+          # 84c0                                test    al, al
+          # 757a                                jnz     short loc_11D5
+          # 8b5310                              mov     edx, [rbx+10h]
+          # 488bce                              mov     rcx, rsi
+          # e81ef4ffff                          call    sub_584
+          # 84c0                                test    al, al
+          # 756b                                jnz     short loc_11D5
+          # 448b4310                            mov     r8d, [rbx+10h]
+          # 33d2                                xor     edx, edx
+          # 33c9                                xor     ecx, ecx
+          # 4585c0                              test    r8d, r8d
+          # 740e                                jz      short loc_1185
+          # 0fb60431                            movzx   eax, byte ptr [rcx+rsi]
+          # 48ffc1                              inc     rcx
+          # 03d0                                add     edx, eax
+          # 493bc8                              cmp     rcx, r8
+          # 72f2                                jb      short loc_1177
+          # 8a431e                              mov     al, [rbx+1Eh]
+          # 02c2                                add     al, dl
+          # 7407                                jz      short loc_1193
+          # b812800000                          mov     eax, 8012h
+          # eb47                                jmp     short loc_11DA
+          # 837b1400                            cmp     dword ptr [rbx+14h], 0
+          # 7507                                jnz     short loc_11A0
+          # c7431407000000                      mov     dword ptr [rbx+14h], 7
+          # 488b0571ca0000                      mov     rax, cs:gEfiSmmVariableProtocol
+          # bf14800000                          mov     edi, 8014h
+          # 4885c0                              test    rax, rax
+          # 741f                                jz      short loc_11D0
+          # 4d8bc8                              mov     r9, r8
+          # 4889742420                          mov     [rsp+38h+var_18], rsi
+          # 448b4314                            mov     r8d, [rbx+14h]
+          # 498bd6                              mov     rdx, r14
+          # 488bcd                              mov     rcx, rbp
+          # ff5010                              call    qword ptr [rax+10h]

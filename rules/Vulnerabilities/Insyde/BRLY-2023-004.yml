@@ -1,0 +1,100 @@
+BRLY-2023-004:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2023-004
+    namespace: vulnerabilities
+    advisory: https://binarly.io/advisories/BRLY-2023-004/index.html
+    description: SMM memory corruption vulnerability in SMM driver (SMRAM write)
+    CVSS score: 8.2 High
+    architecture: X86:LE:64
+    volume guids:
+      - D8803829-0373-4475-9767-461EDEA28813
+  variants:
+    variant1: # Lenovo - J1CN38WW
+      code:
+        and:
+          - pattern: e8........4885c078..488b45..488905........4c8b0833c94c8b40..4d85c974..498bd00fb7023bc375..48817a..........77
+            # e892090000                          call    CommonGetInt10HookPrivateDataVariable
+            # 4885c0                              test    rax, rax
+            # 7853                                js      short loc_1EF6
+            # 488b45f0                            mov     rax, [rbp+Int10HookPrivateDataVariable]
+            # 48890572130000                      mov     cs:gVideoDevSimple, rax
+            # 4c8b08                              mov     r9, [rax]
+            # 33c9                                xor     ecx, ecx
+            # 4c8b4008                            mov     r8, [rax+8]
+            # 4d85c9                              test    r9, r9
+            # 743a                                jz      short loc_1EF6
+            # 498bd0                              mov     rdx, r8
+            # 0fb702                              movzx   eax, word ptr [rdx]
+            # 3bc3                                cmp     eax, ebx
+            # 750a                                jnz     short loc_1ED0
+            # 48817a1000008000                    cmp     qword ptr [rdx+10h], 800000h
+            # 770e                                ja      short loc_1EDE
+          - pattern: 488d0c49498b54c8..4885d274..498b4cc8..e8
+            # 488d0c49                            lea     rcx, [rcx+rcx*2]
+            # 498b54c810                          mov     rdx, [r8+rcx*8+10h]; Length
+            # 4885d2                              test    rdx, rdx
+            # 740a                                jz      short loc_1EF6
+            # 498b4cc808                          mov     rcx, [r8+rcx*8+8]; Buffer
+            # e84af1ffff                          call    ZeroMem
+    variant2: # Lenovo - BGCN36WW
+      code:
+        and:
+          - pattern: e8........4885c078..488b45..488905........488b104c8b40..4885d274..498bc80fb7013bc775..488179..........77
+            # e809180000                          call    CommonGetInt10HookPrivateDataVariable
+            # 4885c0                              test    rax, rax
+            # 784c                                js      short loc_710
+            # 488b45f0                            mov     rax, [rbp+Int10HookPrivateDataVariable]
+            # 488905b91c0000                      mov     cs:gVideoDevSimple, rax
+            # 488b10                              mov     rdx, [rax]
+            # 4c8b4008                            mov     r8, [rax+8]
+            # 4885d2                              test    rdx, rdx
+            # 7435                                jz      short loc_710
+            # 498bc8                              mov     rcx, r8
+            # 0fb701                              movzx   eax, word ptr [rcx]
+            # 3bc7                                cmp     eax, edi
+            # 750a                                jnz     short loc_6EF
+            # 4881791000008000                    cmp     qword ptr [rcx+10h], 800000h
+            # 770e                                ja      short loc_6FD
+          - pattern: 488d0c5b498b54c8..498b4cc8..e8
+            # 488d0c5b                            lea     rcx, [rbx+rbx*2]
+            # 498b54c810                          mov     rdx, [r8+rcx*8+10h]; Length
+            # 498b4cc808                          mov     rcx, [r8+rcx*8+8]; Buffer
+            # e804040000                          call    ZeroMem
+    variant3: # Fujitsu - LIFEBOOK U748 1.27
+      code:
+        and:
+          - pattern: 488d45..48c745..........48894424..4c8d4d..488b05........488d15........4533c0488d0d........ff50..4885c078..488b45..488905........488b104c8b40..4885d274..498bc80fb7013bc775..488179..........77..48ffc34883c1..483bda73..eb..488d0c5b498b54c8..498b4cc8..e8
+            # 488d45f0                            lea     rax, [rbp+var_10]
+            # 48c745e808000000                    mov     [rbp+DataSize], 8
+            # 4889442420                          mov     [rsp+60h+Data], rax; Data
+            # 4c8d4de8                            lea     r9, [rbp+DataSize]; DataSize
+            # 488b05480c0000                      mov     rax, cs:gRT
+            # 488d15b10b0000                      lea     rdx, VendorGuid; VendorGuid
+            # 4533c0                              xor     r8d, r8d; Attributes
+            # 488d0dc70b0000                      lea     rcx, VariableName; "Int10HookPrivateDataVariable"
+            # ff5048                              call    [rax+EFI_RUNTIME_SERVICES.GetVariable]; gRT->GetVariable()
+            # 4885c0                              test    rax, rax
+            # 784c                                js      short loc_63D
+            # 488b45f0                            mov     rax, [rbp+var_10]
+            # 4889051c0c0000                      mov     cs:gVideoDevSimple, rax
+            # 488b10                              mov     rdx, [rax]
+            # 4c8b4008                            mov     r8, [rax+8]
+            # 4885d2                              test    rdx, rdx
+            # 7435                                jz      short loc_63D
+            # 498bc8                              mov     rcx, r8
+            # 0fb701                              movzx   eax, word ptr [rcx]
+            # 3bc7                                cmp     eax, edi
+            # 750a                                jnz     short loc_61C
+            # 4881791000008000                    cmp     qword ptr [rcx+10h], 800000h
+            # 770e                                ja      short loc_62A
+            # 48ffc3                              inc     rbx
+            # 4883c118                            add     rcx, 18h
+            # 483bda                              cmp     rbx, rdx
+            # 7315                                jnb     short loc_63D
+            # ebe1                                jmp     short loc_60B
+            # 488d0c5b                            lea     rcx, [rbx+rbx*2]
+            # 498b54c810                          mov     rdx, [r8+rcx*8+10h]; Length
+            # 498b4cc808                          mov     rcx, [r8+rcx*8+8]; Buffer
+            # e80b040000                          call    ZeroMem

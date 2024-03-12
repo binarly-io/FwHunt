@@ -1,0 +1,29 @@
+BRLY-2023-002:
+  meta:
+    author: Binarly (https://github.com/binarly-io/FwHunt)
+    license: CC0-1.0
+    name: BRLY-2023-002
+    namespace: vulnerabilities
+    advisory: https://binarly.io/advisories/BRLY-2023-002/index.html
+    description: Stack buffer overflow vulnerability leading to arbitrary code execution during DXE phase.
+    CVSS score: 8.2 High
+    architecture: X86:LE:64
+    volume guids:
+      - FEEA2404-752E-4E6E-823C-877D848CB12B
+  code:
+    - pattern: 48c74424..........4c8d4c24..4c8d4424..488d15........488d0d........e8........48894424..48b8................48394424..75..4c8d4c24..4c8d4424..488d15........488d0d........e8
+      # 48c744247801000000                  mov     [rsp+98h+DataSize], 1
+      # 4c8d4c2430                          lea     r9, [rsp+98h+Data]
+      # 4c8d442478                          lea     r8, [rsp+98h+DataSize]
+      # 488d153f110000                      lea     rdx, ASF_SECURE_BOOT_VARIABLE_GUID
+      # 488d0d38140000                      lea     rcx, VariableName; "AsfSecureBoot"
+      # e8b70f0000                          call    CommonGetVariable
+      # 4889442438                          mov     [rsp+98h+var_60], rax
+      # 48b80500000000000080                mov     rax, 8000000000000005h
+      # 4839442438                          cmp     [rsp+98h+var_60], rax
+      # 7522                                jnz     short loc_6C5
+      # 4c8d4c2430                          lea     r9, [rsp+98h+Data]
+      # 4c8d442478                          lea     r8, [rsp+98h+DataSize]
+      # 488d150c110000                      lea     rdx, ASF_SECURE_BOOT_VARIABLE_GUID
+      # 488d0d05140000                      lea     rcx, VariableName; "AsfSecureBoot"
+      # e8840f0000                          call    CommonGetVariable
