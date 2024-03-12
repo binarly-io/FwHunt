@@ -7,8 +7,7 @@ BlackLotusBootkit:
     description: BlackLotus Bootkit malicious component
     url: https://www.welivesecurity.com/2023/03/01/blacklotus-uefi-bootkit-myth-confirmed/
     architecture: X86:LE:64
-    volume guids:
-      - AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA # applies only to module scanning
+    target: boot-loader
   variants:
     lightweight scan:
       hex_strings:

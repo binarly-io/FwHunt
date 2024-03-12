@@ -38,3 +38,29 @@ JSON scheme:
   }
 }
 ```
+
+## Targets
+
+We support scenarios where FwHunt can be used to scan targets other than UEFI modules.
+
+### firmware
+
+To scan the firmware, use the following specifier in the metadata:
+
+```yaml
+meta:
+  target: firmware
+```
+
+Example: [MsiLeakBootGuardKeys](https://github.com/binarly-io/FwHunt/blob/main/rules/SupplyChain/MsiLeakBootGuardKeys.yml)
+
+### boot-loader
+
+To scan the boot loader, use the following specifier in the metadata:
+
+```yaml
+meta:
+  target: boot-loader
+```
+
+Example: [BlackLotusBootkit](https://github.com/binarly-io/FwHunt/blob/main/rules/Threats/BlackLotusBootkit.yml)
