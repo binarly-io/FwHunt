@@ -18,7 +18,7 @@
           name: LocateProtocol
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {

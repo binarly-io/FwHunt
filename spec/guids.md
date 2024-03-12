@@ -12,7 +12,7 @@ Similar with [protocols](./protocols.md)
         value: 335984BD-E805-409A-B8F8D27ECE5FF7A6
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {

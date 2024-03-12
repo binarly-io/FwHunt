@@ -18,7 +18,7 @@ BRLY-2021-011:
     and:
       - pattern: 488b5310498d48204d8b4018e8....0000
         place: child_sw_smi_handlers
-      - pattern: 4981392010000075
+      - pattern: "4981392010000075"
         place: child_sw_smi_handlers
 ```
 
@@ -60,7 +60,7 @@ BRLY-2021-011:
         and:
           - pattern: 488b5310498d48204d8b4018e8....0000
             place: child_sw_smi_handlers
-          - pattern: 4981392010000075
+          - pattern: "4981392010000075"
             place: child_sw_smi_handlers
     variant2:
       code:
