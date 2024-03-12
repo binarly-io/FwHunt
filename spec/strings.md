@@ -12,7 +12,7 @@
       - string1
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {
@@ -26,7 +26,7 @@ JSON scheme:
       "string1"
     ]
   }
-
+}
 ```
 
 ## wide_strings
@@ -51,6 +51,8 @@ To specify the endianness of wide strings:
 ```
 
 If the strings are specified as a list of strings, we default to little endian encoding.
+
+JSON representation:
 
 ```json
 {
@@ -94,7 +96,7 @@ If the strings are specified as a list of strings, we default to little endian e
       - hexstring1
 ```
 
-JSON scheme
+JSON representation:
 
 ```json
 {

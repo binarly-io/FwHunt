@@ -10,7 +10,7 @@
         place: sw_smi_handlers
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {

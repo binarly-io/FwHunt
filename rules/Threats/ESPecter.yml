@@ -6,8 +6,7 @@ ESPecter:
     namespace: threats
     description: EFI Bootloader associated with ESPecter malware
     url: https://www.welivesecurity.com/2021/10/05/uefi-threats-moving-esp-introducing-especter-bootkit/
-    volume guids:
-      - AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA # applies only to module scanning
+    target: bootloader
   hex_strings:
     - 813fff488365....817f04d0004883....817f0865400083....9090c647ebb8c747ec00000000c647f0c34831c0
         # 813fff488365                        cmp     dword ptr [rdi], 658348FFh

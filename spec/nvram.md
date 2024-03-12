@@ -16,7 +16,7 @@ Similar with [protocols](./protocols.md)
           name: SetVariable
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {

@@ -12,7 +12,7 @@ Similar with [protocols](./protocols.md)
           name: LocatePpi
 ```
 
-JSON scheme:
+JSON representation:
 
 ```json
 {
